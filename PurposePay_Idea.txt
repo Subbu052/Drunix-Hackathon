@@ -1,0 +1,71 @@
+Proposal Title:
+
+PurposePay: Programmable, Purpose-Bound Cross-Border Remittances on UPI and Digital Rupee Rails
+
+Problem Understanding:
+
+Millions of Indians working abroad send money home every month, and the current process fails them in four ways:
+
+1. High and hidden costs: Fees and FX margins are often buried in the exchange rate, so senders can't see what their family will actually receive.
+2. Slow and opaque settlement: Transfers pass through several intermediary banks, which causes delays and leaves both sides unsure where the money is.
+3. No control over how the money is used: A sender who wants the money to go to school fees, medical bills or household needs has no way to ensure it, and the family has to handle these payments separately.
+4. Friction for recipients and compliance: Recipients are often first-time digital users who prefer regional languages, and purpose codes and compliance checks are handled slowly, after the payment.
+India already has strong payment infrastructure in UPI, and it is expanding internationally through NPCI's cross-border linkages. The RBI is also piloting the digital rupee (e₹) with offline and programmable features. What is missing is a remittance experience that combines transparent pricing, familiar UPI-based delivery and money that carries rules about how it is used.
+
+Solution Description:
+
+PurposePay is a remittance platform that treats a transfer as money with instructions, delivered through the payment rails Indians already use.
+
+For the sender:
+Enters an amount and sees a full, up-front breakdown: FX rate, fee and the exact amount the family will receive.
+Splits the transfer into purpose-bound categories such as education, healthcare, essentials and free spending, each with its own limit and validity.
+
+For the recipient:
+Receives the money as usable balances. Everyday spending works through UPI and QR flows they already know, so the NPCI ecosystem remains the delivery layer.
+Purpose-bound portions use a programmable digital rupee-style wallet, where rules are enforced by the money itself. For example, the education balance can be paid only to approved institutions, and the healthcare balance only to hospitals and pharmacies. Unspent funds return or convert per the sender's rules after expiry.
+Gets notifications and voice confirmations in their regional language.
+
+Built into every transfer:
+
+Compliance in the flow: purpose code, sender checks and limits are screened during the payment, and flagged transfers are held with a clear explanation.
+Atomic settlement (simulated): the currency exchange and delivery happen as one step, so money is never lost or stuck midway.
+Real-world conditions: where a condition needs proof (for example, a fee payment to an institution), release happens only after a signed confirmation from the institution, and everything is logged in an audit trail.
+
+The design is complementary to UPI: UPI handles everyday payments, while programmable e₹-style balances add rules, direct settlement and offline use where UPI does not.
+
+Implementation Approach:
+
+We are building a working, end-to-end prototype using a modular design, with mock services where live access is not available.
+
+1. Rail adapters: Payment rails sit behind clean interfaces: a UPI adapter (NPCI sandbox APIs if access is granted, a mock otherwise), a digital rupee wallet adapter (simulated, based on RBI's public design), and an FX and corridor adapter (illustrative rates). This lets us swap in real APIs without redesigning the system.
+2. Quote engine: Calculates the FX rate, fees and recipient amount before sending, and compares the cost and time against a traditional transfer.
+3. Rule and escrow engine: Locks the transferred amount, splits it into purpose-bound balances, and enforces conditions such as allowed payee categories, limits and expiry. Release happens in a single atomic step, with automatic refund or conversion if a deadline passes.
+4. Attestation and compliance module: Verifies signed confirmations from institutions where needed, applies purpose-code and mock watchlist checks, and writes every action to an append-only audit log.
+5. Recipient experience: A lightweight app with UPI-style QR payments and regional-language notifications and voice.
+6. Live dashboard: Shows transfer status, cost and time comparisons, and blocked or allowed payments in real time.
+
+
+Technology Stack:
+
+Backend: Python (FastAPI), WebSockets for live updates, PostgreSQL (SQLite for the demo), Redis for queues and status.
+Rule and security layer: a custom rule engine, ECDSA-signed rules and attestations (Python cryptography), idempotency keys and database transactions for atomic release, and an append-only audit log.
+Frontend: React or a PWA for the sender app, recipient app and dashboard, with QR generation and scanning.
+AI and language: an LLM API for multilingual notifications and explanations, and speech-to-text and text-to-speech for regional-language voice support.
+Integrations (via adapters): NPCI UPI sandbox or mock, simulated digital rupee wallet and ledger, mock FX and corridor service, and mock institution and watchlist services.
+DevOps: Docker for a reproducible demo, with a simple CI setup.
+Expected Impact
+Transparency: senders see the full cost and the exact recipient amount before sending, so there are no hidden margins.
+Speed and reliability: direct, atomic settlement in the design removes the intermediary chain and the risk of stuck payments. The prototype demonstrates the difference against a traditional route in a side-by-side timeline.
+Purposeful use of money: remittances reach the needs the sender intended, such as education and healthcare, with an auditable trail.
+Inclusion: recipients who are new to digital payments get regional-language and voice support, and familiar UPI/QR payments.
+Trust and compliance: checks happen during the transfer, with explanations that reduce delays and disputes.
+Alignment with India's payment direction: the solution builds on UPI's growing cross-border reach and prepares for the RBI's ongoing work on programmable and cross-border digital rupee use cases.
+
+Expected Impact:
+
+1. Transparency: senders see the full cost and the exact recipient amount before sending, so there are no hidden margins.
+2. Speed and reliability: direct, atomic settlement in the design removes the intermediary chain and the risk of stuck payments. The prototype demonstrates the difference against a traditional route in a side-by-side timeline.
+3. Purposeful use of money: remittances reach the needs the sender intended, such as education and healthcare, with an auditable trail.
+4. Inclusion: recipients who are new to digital payments get regional-language and voice support, and familiar UPI/QR payments.
+5. Trust and compliance: checks happen during the transfer, with explanations that reduce delays and disputes.
+6. Alignment with India's payment direction: the solution builds on UPI's growing cross-border reach and prepares for the RBI's ongoing work on programmable and cross-border digital rupee use cases.
