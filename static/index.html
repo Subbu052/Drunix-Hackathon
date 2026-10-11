@@ -1,1 +1,883 @@
-h
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PurposePay | Programmable Cross-Border e₹</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0A1330; --bg2:#0F1B3A; --card:#14224A; --card2:#1A2B57; --line:#2C4482; --line2:#223768;
+  --ink:#F6F4EE; --mute:#A9B8DB; --dim:#7F90BA;
+  --saffron:#F2A04A; --saffron2:#E8892B; --green:#3CB48A; --red:#FF7A70; --amber:#F2C14A;
+  --edu:#7AA7FF; --health:#F2A04A; --gen:#4CC9B0;
+  --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);min-height:100vh;line-height:1.45;
+  background-image:radial-gradient(1000px 520px at 88% -8%,rgba(36,60,128,.55),transparent 60%),
+                   radial-gradient(800px 480px at -6% 105%,rgba(242,160,74,.10),transparent 60%);
+  background-attachment:fixed}
+.bg-grid{position:fixed;inset:0;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 75%)}
+.wrap{position:relative;max-width:1500px;margin:0 auto;padding:22px 24px 40px}
+button{font-family:inherit;cursor:pointer;border:0;color:inherit}
+input{font-family:inherit}
+.mono{font-family:var(--mono)}
+
+/* header */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:24px;color:#2A1A04;
+  background:linear-gradient(135deg,#FFD27A,#E8892B);box-shadow:0 0 0 3px rgba(242,160,74,.25),0 8px 24px rgba(232,137,43,.35);animation:spin 9s linear infinite}
+@keyframes spin{0%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
+h1{font-size:28px;font-weight:700;letter-spacing:-.4px;line-height:1.1}
+h1 span{font-weight:400;color:var(--mute)}
+.sub{font-size:13px;color:var(--mute);margin-top:4px;display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(60,180,138,.6);animation:pulse 2s infinite;display:inline-block}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(60,180,138,0)}100%{box-shadow:0 0 0 0 rgba(60,180,138,0)}}
+.top-r{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.oracle{text-align:right;padding:8px 14px;border:1px solid var(--line2);border-radius:14px;background:rgba(20,34,74,.7)}
+.oracle .lbl{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.oracle b{font-family:var(--mono);font-size:17px;color:var(--saffron)}
+.btn{border-radius:12px;padding:11px 18px;font-size:14px;font-weight:700;transition:transform .15s,background .15s,opacity .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn.primary{background:linear-gradient(180deg,#F7B05E,#E8892B);color:#2A1A04;box-shadow:0 6px 18px rgba(232,137,43,.3)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.ghost:hover{background:rgba(255,255,255,.05)}
+.btn.cyan{background:linear-gradient(180deg,#5FD9C2,#2FA98F);color:#04261F}
+.btn.wide{width:100%;padding:15px 18px;font-size:15px}
+
+/* demo narration */
+.narr{display:none;align-items:center;gap:12px;margin-bottom:14px;padding:12px 18px;border-radius:14px;border:1px solid rgba(242,160,74,.55);background:#2a1d0f;font-size:15px;line-height:1.45;position:sticky;top:8px;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.narr .eq{display:inline-flex;gap:3px;align-items:flex-end;height:16px;flex:none}.narr .eq i{width:3px;height:4px;background:var(--saffron);border-radius:2px}.narr.talk .eq i{animation:eq .8s ease-in-out infinite}.narr.talk .eq i:nth-child(2){animation-delay:.15s}.narr.talk .eq i:nth-child(3){animation-delay:.3s}@keyframes eq{0%,100%{height:4px}50%{height:16px}}
+.narr.on{display:flex}
+.narr b{color:var(--saffron);white-space:nowrap}
+
+/* pipeline */
+.pipe{display:flex;align-items:stretch;gap:0;margin-bottom:20px;overflow-x:auto;padding-bottom:4px}
+.pn{flex:1;min-width:170px;display:flex;align-items:center}
+.pn .box{flex:1;display:flex;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line2);border-radius:16px;background:rgba(20,34,74,.65);transition:all .3s}
+.pn .badge{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;border:2px solid var(--line);color:var(--mute);flex-shrink:0;transition:all .3s}
+.pn .t{font-weight:700;font-size:15px;line-height:1.2}
+.pn .s{font-size:12.5px;color:var(--mute);line-height:1.3}
+.pn .arrow{width:26px;flex-shrink:0;height:2px;background:var(--line);position:relative;margin:0 2px}
+.pn .arrow::after{content:"";position:absolute;right:-1px;top:-4px;border-left:7px solid var(--line);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.pn:last-child .arrow{display:none}
+.pn.active .box{border-color:var(--saffron);background:rgba(242,160,74,.12);box-shadow:0 0 0 3px rgba(242,160,74,.12)}
+.pn.active .badge{border-color:var(--saffron);color:var(--saffron);animation:pulse2 1s infinite}
+@keyframes pulse2{50%{transform:scale(1.12)}}
+.pn.done .box{border-color:rgba(60,180,138,.6);background:rgba(60,180,138,.09)}
+.pn.done .badge{background:var(--green);border-color:var(--green);color:#04261F}
+.pn.error .box{border-color:rgba(255,122,112,.7);background:rgba(255,122,112,.1)}
+.pn.error .badge{background:var(--red);border-color:var(--red);color:#2B0A07}
+
+/* grid + cards */
+.grid{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:1180px){.grid{grid-template-columns:1fr 1.12fr 1fr}}
+.card{background:linear-gradient(180deg,rgba(26,43,87,.92),rgba(20,34,74,.92));border:1px solid var(--line2);border-radius:22px;padding:22px;box-shadow:0 18px 50px rgba(3,8,24,.45)}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--mute);margin-bottom:16px}
+.num{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:var(--saffron);color:#2A1A04;letter-spacing:0}
+.num.b{background:var(--gen)}.num.c{background:var(--edu)}
+.fl{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--dim);margin:14px 0 7px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:76px;padding:10px 8px;border-radius:12px;background:rgba(10,19,48,.6);border:1px solid var(--line2);font-size:13.5px;font-weight:700;color:var(--mute);transition:all .15s}
+.seg button:hover{border-color:var(--line)}
+.seg button.on{border-color:var(--saffron);color:var(--ink);background:rgba(242,160,74,.14)}
+.seg.bk button.on[data-b="EDUCATION"]{border-color:var(--edu);background:rgba(122,167,255,.14)}
+.seg.bk button.on[data-b="HEALTHCARE"]{border-color:var(--health);background:rgba(242,160,74,.14)}
+.seg.bk button.on[data-b="GENERAL"]{border-color:var(--gen);background:rgba(76,201,176,.14)}
+.balance{margin-top:14px;padding:14px 16px;border-radius:14px;background:rgba(10,19,48,.55);border:1px solid var(--line2)}
+.balance .fl{margin:0 0 4px}
+.balance b{display:block;font-size:26px;font-weight:500}
+.balance small{color:var(--mute);font-size:12.5px}
+.amount{position:relative}
+.amount input{width:100%;padding:13px 70px 13px 16px;border-radius:12px;background:rgba(10,19,48,.7);border:1px solid var(--line2);color:var(--ink);font-family:var(--mono);font-size:20px;font-weight:500}
+.amount input:focus,.payrow input:focus{outline:none;border-color:var(--saffron)}
+.amount span{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--saffron)}
+.quick{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.chip{padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line2);font-size:12.5px;color:var(--mute);font-family:var(--mono)}
+.chip:hover{color:var(--ink);border-color:var(--line)}
+.splitbar{display:flex;height:14px;border-radius:999px;overflow:hidden;background:#0A1330;margin-bottom:12px;border:1px solid var(--line2)}
+.splitbar i{display:block;height:100%;transition:width .25s}
+.splitbar .e{background:var(--edu)}.splitbar .h{background:var(--health)}.splitbar .g{background:var(--gen)}
+.sl{display:grid;grid-template-columns:12px 84px 1fr 44px;align-items:center;gap:10px;margin:8px 0;font-size:14px}
+.sl .sw{width:10px;height:10px;border-radius:3px}
+.sl.e .sw{background:var(--edu)}.sl.h .sw{background:var(--health)}.sl.g .sw{background:var(--gen)}
+.sl b{font-family:var(--mono);text-align:right;font-weight:500}
+.sl em{grid-column:2/5;font-style:normal;font-size:12.5px;color:var(--mute);font-family:var(--mono);margin-top:-5px}
+.sl.g .auto{font-size:12px;color:var(--dim);font-style:italic}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;background:#0A1330;outline:none;border:1px solid var(--line2)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ink);border:3px solid var(--saffron);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ink);border:3px solid var(--saffron);cursor:pointer}
+.preview{margin:14px 0;padding:14px 16px;border-radius:14px;background:rgba(60,180,138,.1);border:1px solid rgba(60,180,138,.4)}
+.preview small{display:block;color:var(--mute);font-size:12.5px}
+.preview b{font-family:var(--mono);font-size:24px;font-weight:500;color:#7FD8B4}
+.cap{margin:12px 0 18px;padding:14px 16px;border-radius:14px;background:rgba(10,19,48,.55);border:1px solid var(--line2)}
+.cap .row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--mute);margin-bottom:8px;gap:6px 10px}
+.cap .row b{color:var(--ink);font-family:var(--mono);font-weight:500;white-space:nowrap}
+.meter{height:10px;border-radius:99px;background:#0A1330;border:1px solid var(--line2);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--amber));transition:width .5s}
+.cap p{font-size:12.5px;color:var(--dim);margin-top:9px}
+.zk{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#7FD8B4;background:rgba(60,180,138,.12);border:1px solid rgba(60,180,138,.4);padding:3px 9px;border-radius:999px}
+
+/* wallet */
+.wallet{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
+@media(max-width:560px){.wallet{grid-template-columns:1fr}}
+.donut{position:relative;width:150px;height:150px;margin:0 auto}
+.donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+.donut circle{fill:none;stroke-width:16}
+.dc{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.dc small{font-size:11px;color:var(--mute);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.dc b{font-family:var(--mono);font-size:17px;font-weight:500}
+.buckets{display:flex;flex-direction:column;gap:9px}
+.bk{padding:11px 13px;border-radius:14px;background:rgba(10,19,48,.55);border:1px solid var(--line2);transition:border-color .3s,box-shadow .3s}
+.bk.flash{box-shadow:0 0 0 3px rgba(242,160,74,.35);border-color:var(--saffron)}
+.bk .h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.bk .n{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.bk .n i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.bk b{font-family:var(--mono);font-weight:500;font-size:15px}
+.bk .m{font-size:12px;color:var(--dim);margin-top:3px}
+.bk .tk{display:flex;gap:3px;margin-top:7px}
+.bk .tk s{flex:1;height:6px;border-radius:2px;background:#0A1330;display:block}
+.bk .tk s.on{opacity:1}
+.pos{margin-top:20px;padding-top:18px;border-top:1px solid var(--line2)}
+.pos h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:12px}
+.merchants{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.mc{text-align:left;padding:10px 11px;border-radius:13px;background:rgba(10,19,48,.55);border:1px solid var(--line2);transition:all .15s;display:flex;gap:9px;align-items:center}
+.mc:hover{border-color:var(--line)}
+.mc.on{border-color:var(--gen);background:rgba(76,201,176,.12)}
+.mc .ic{font-size:22px}
+.mc .nm{font-size:13.5px;font-weight:700;line-height:1.2}
+.mc .tg{font-size:11.5px;color:var(--mute);font-family:var(--mono);white-space:nowrap}
+.payrow{display:flex;gap:10px;margin-top:12px}
+.payrow input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;background:rgba(10,19,48,.7);border:1px solid var(--line2);color:var(--ink);font-family:var(--mono);font-size:16px}
+.scan{display:flex;gap:14px;margin-top:14px;align-items:stretch}
+.qrbox{width:104px;height:104px;border-radius:12px;background:#F6F4EE;padding:7px;flex-shrink:0;position:relative;overflow:hidden}
+.qrbox svg{width:100%;height:100%;display:block}
+.qrbox.scanning::after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--red);box-shadow:0 0 10px var(--red);animation:scanline .9s ease-in-out infinite}
+@keyframes scanline{0%{top:0}50%{top:100%}100%{top:0}}
+.scan-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.scan-info code{font-family:var(--mono);font-size:11.5px;color:var(--mute);word-break:break-all;line-height:1.35}
+.result{padding:11px 13px;border-radius:12px;font-size:13.5px;line-height:1.4;border:1px solid var(--line2);background:rgba(10,19,48,.55);color:var(--mute)}
+.result b{display:block;font-size:15px;margin-bottom:2px}
+.result.ok{border-color:rgba(60,180,138,.7);background:rgba(60,180,138,.13);color:var(--ink)}
+.result.ok b{color:#7FD8B4}
+.result.bad{border-color:rgba(255,122,112,.75);background:rgba(255,122,112,.12);color:var(--ink)}
+.result.bad b{color:#FF9A90}
+
+/* insight */
+.tabs{display:flex;gap:4px;padding:4px;border-radius:14px;background:rgba(10,19,48,.6);border:1px solid var(--line2);margin-bottom:16px}
+.tabs button{flex:1;padding:9px 6px;border-radius:10px;background:transparent;font-size:13px;font-weight:700;color:var(--mute)}
+.tabs button.on{background:var(--saffron);color:#2A1A04}
+.pane{display:none}.pane.on{display:block}
+.vs{margin-bottom:14px;padding:14px;border-radius:16px;border:1px solid var(--line2)}
+.vs.sw{background:rgba(255,122,112,.07);border-color:rgba(255,122,112,.35)}
+.vs.pp{background:rgba(60,180,138,.08);border-color:rgba(60,180,138,.45)}
+.vs .hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.vs .hd span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.vs.sw .hd span{color:#FF9A90}.vs.pp .hd span{color:#7FD8B4}
+.vs .hd b{font-family:var(--mono);font-size:19px;font-weight:500}
+.bar{height:10px;border-radius:99px;background:#0A1330;overflow:hidden;margin-bottom:10px}
+.bar i{display:block;height:100%;border-radius:99px;transition:width .5s}
+.vs.sw .bar i{background:var(--red)}.vs.pp .bar i{background:var(--green)}
+.ln{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);padding:3px 0;gap:8px}
+.ln b{font-family:var(--mono);font-weight:500;color:var(--ink)}
+.ln.t{border-top:1px solid var(--line2);margin-top:5px;padding-top:7px;color:var(--ink);font-weight:700}
+.ln b.neg{color:#FF9A90}
+.meta{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--mute);margin-top:6px;flex-wrap:wrap}
+.meta b{color:var(--ink)}
+.bkt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.bkt div{padding:7px 8px;border-radius:10px;background:rgba(10,19,48,.55);font-size:11.5px;color:var(--mute);text-align:center}
+.bkt b{display:block;font-family:var(--mono);font-size:13px;font-weight:500;color:var(--ink);margin-top:2px}
+.save{padding:15px;border-radius:16px;text-align:center;background:linear-gradient(135deg,rgba(242,160,74,.2),rgba(122,167,255,.14));border:1px solid rgba(242,160,74,.5)}
+.save small{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--saffron);font-weight:700}
+.save b{display:block;font-family:var(--mono);font-size:25px;font-weight:500;margin:3px 0}
+.save span{font-size:13px;color:var(--mute)}
+.note{font-size:12px;color:var(--dim);margin-top:12px;line-height:1.4}
+pre.xml{font-family:var(--mono);font-size:12.5px;line-height:1.55;background:#08102A;border:1px solid var(--line2);border-radius:14px;padding:14px;overflow:auto;color:#D5DDF0;white-space:pre;margin-bottom:12px}
+pre.xml .t{color:#8FB3FF}pre.xml .v{color:var(--saffron)}pre.xml .c{color:var(--dim)}
+.h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--mute);margin:4px 0 8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12.5px;margin-bottom:12px}
+.kv span{color:var(--dim)}.kv code{font-family:var(--mono);color:var(--ink);word-break:break-all}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tier{padding:12px;border-radius:14px;background:rgba(10,19,48,.55);border:1px solid var(--line2)}
+.tier small{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.tier b{display:block;font-family:var(--mono);font-size:17px;font-weight:500;margin:3px 0}
+.tier span{font-size:12px;color:var(--dim)}
+.blk{display:grid;grid-template-columns:34px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2);font-size:12.5px}
+.blk:last-child{border:0}
+.blk .hh{font-family:var(--mono);color:var(--dim)}
+.blk .kd{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:6px;margin-right:6px}
+.kd.ISSUE,.kd.GENESIS{background:rgba(122,167,255,.2);color:#9DBBFF}
+.kd.DISTRIBUTE{background:rgba(76,201,176,.2);color:#6FE0C8}
+.kd.SPEND{background:rgba(242,160,74,.22);color:var(--saffron)}
+.blk .hs{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:2px}
+.rule{padding:11px 12px;border-radius:13px;background:rgba(10,19,48,.55);border:1px solid var(--line2);margin-bottom:9px}
+.rule h5{font-size:14px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.rule h5 i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-family:var(--mono);font-size:11.5px;padding:3px 8px;border-radius:7px;background:rgba(255,255,255,.07);color:var(--mute)}
+.tag.bad{background:rgba(255,122,112,.15);color:#FF9A90}
+.empty{padding:26px 14px;text-align:center;color:var(--dim);font-size:13.5px;border:1px dashed var(--line2);border-radius:14px}
+
+/* logs */
+.logs{margin-top:20px;padding:0;overflow:hidden}
+.logs .lh{display:flex;justify-content:space-between;align-items:center;padding:11px 18px;border-bottom:1px solid var(--line2);background:rgba(10,19,48,.6)}
+.logs .lh span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--mute)}
+.logs .lh button{background:none;color:var(--dim);font-size:12px;font-weight:700}
+#log{height:170px;overflow-y:auto;padding:14px 18px;font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+#log div{margin-bottom:6px}
+#log .tm{color:var(--dim);margin-right:8px}
+.lg-c{color:var(--saffron)}.lg-g{color:#7FD8B4}.lg-r{color:#FF9A90;font-weight:500}.lg-b{color:#9DBBFF}.lg-p{color:#C7A6FF}
+footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">
+    <div class="logo">₹</div>
+    <div>
+      <h1>PurposePay <span>Bridge Terminal</span></h1>
+      <p class="sub"><i class="dot"></i> Two-tier ledger live · simulation mode</p>
+    </div>
+  </div>
+  <div class="top-r">
+    <div class="oracle"><span class="lbl" id="oracleLbl">Oracle rate</span><b id="oracleVal">…</b></div>
+    <button class="btn ghost" id="btnReset">Reset demo</button>
+    <button class="btn ghost" id="btnVoice" title="Toggle voice narration">🔊 Voice on</button>
+    <button class="btn primary" id="btnDemo">▶ Run guided demo</button>
+  </div>
+</header>
+
+<div class="narr" id="narr"><span class="eq"><i></i><i></i><i></i></span><b id="narrStep">Demo</b><span id="narrText"></span></div>
+
+<section class="pipe" id="pipe" aria-label="Transaction lifecycle"></section>
+
+<main class="grid">
+
+  <!-- 1. SENDER -->
+  <section class="card">
+    <div class="eyebrow"><span class="num">1</span> Sender · abroad</div>
+
+    <label class="fl" style="margin-top:0">Corridor</label>
+    <div class="seg" id="segCur"></div>
+
+    <div class="balance">
+      <span class="fl">Available balance</span>
+      <b class="mono" id="balVal">…</b>
+      <small id="nodeVal"></small>
+    </div>
+
+    <label class="fl" for="inAmount">Transfer amount</label>
+    <div class="amount"><input id="inAmount" type="number" min="1" step="any" value="1000"><span id="amtCur">USD</span></div>
+    <div class="quick" id="quick"></div>
+
+    <label class="fl">Programmable split</label>
+    <div class="splitbar"><i class="e" id="barE"></i><i class="h" id="barH"></i><i class="g" id="barG"></i></div>
+    <div class="sl e"><span class="sw"></span><span>Education</span><input id="slEdu" type="range" min="0" max="100" value="40"><b id="vEdu">40%</b><em id="inrEdu"></em></div>
+    <div class="sl h"><span class="sw"></span><span>Healthcare</span><input id="slHealth" type="range" min="0" max="100" value="40"><b id="vHealth">40%</b><em id="inrHealth"></em></div>
+    <div class="sl g"><span class="sw"></span><span>General</span><span class="auto">remainder</span><b id="vGen">20%</b><em id="inrGen"></em></div>
+
+    <div class="preview">
+      <small>Receiver gets (e₹ minted in purpose buckets)</small>
+      <b id="prevTotal">₹0</b>
+      <small id="prevRate"></small>
+    </div>
+
+    <div class="cap">
+      <div class="row"><span>Annual cap used <span class="zk">ZKP-checked</span></span><b id="capTxt">$0 / $250,000</b></div>
+      <div class="meter"><i id="capBar"></i></div>
+      <p>The ledger sees only “within cap” from a proof, never the sender's balance or history. The cap is a regulator policy value per corridor.</p>
+    </div>
+
+    <button class="btn primary wide" id="btnSend">Mint &amp; transfer e₹</button>
+  </section>
+
+  <!-- 2. RECEIVER -->
+  <section class="card">
+    <div class="eyebrow"><span class="num b">2</span> Receiver · India e₹ wallet</div>
+
+    <div class="wallet">
+      <div class="donut">
+        <svg viewBox="0 0 140 140" id="donut"><circle cx="70" cy="70" r="54" stroke="#0A1330"></circle></svg>
+        <div class="dc"><small>Total e₹</small><b id="recTotal">₹0</b></div>
+      </div>
+      <div class="buckets" id="buckets"></div>
+    </div>
+
+    <div class="pos">
+      <h3>Merchant POS · scan a UPI / e₹ QR</h3>
+      <div class="merchants" id="merchants"></div>
+      <label class="fl">Spend from bucket</label>
+      <div class="seg bk" id="segBucket"></div>
+      <div class="payrow">
+        <input id="posAmt" type="number" min="1" value="2000" aria-label="Amount in INR">
+        <button class="btn cyan" id="btnPay">Scan QR &amp; pay</button>
+      </div>
+      <div class="scan">
+        <div class="qrbox" id="qrbox"><svg id="qr" viewBox="0 0 25 25" shape-rendering="crispEdges"></svg></div>
+        <div class="scan-info">
+          <code id="qrPayload">Select a merchant to generate its QR payload</code>
+          <div class="result" id="posResult">The merchant's 4-digit MCC travels in the QR. The contract checks it against the bucket.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. INSIGHT -->
+  <section class="card">
+    <div class="eyebrow"><span class="num c">3</span> Why it matters · live engine</div>
+    <div class="tabs" id="tabs">
+      <button class="on" data-t="cmp">SWIFT vs PurposePay</button>
+      <button data-t="iso">ISO 20022</button>
+      <button data-t="led">Ledger</button>
+      <button data-t="rul">Rules</button>
+    </div>
+    <div class="pane on" id="p-cmp"></div>
+    <div class="pane" id="p-iso"></div>
+    <div class="pane" id="p-led"></div>
+    <div class="pane" id="p-rul"></div>
+  </section>
+</main>
+
+<section class="card logs">
+  <div class="lh"><span>Blockchain explorer logs</span><button id="btnClear">CLEAR</button></div>
+  <div id="log"><div><span class="tm">--:--:--</span>Initializing multi-currency CBDC state engine…</div></div>
+</section>
+
+<footer>Simulation: in-memory ledger, simulated HSM and ZKP, static FX rates. Production design: permissioned DLT, FIPS 140-2 L3 HSMs, live FX oracles, on-chain ZKP verification.</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inr0 = n => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
+const inr2 = n => '₹' + (Number(n) || 0).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const usd0 = n => '$' + Math.round(Number(n) || 0).toLocaleString('en-US');
+const FLAG = {USD:'🇺🇸', AED:'🇦🇪', HKD:'🇭🇰', SGD:'🇸🇬'};
+const BUCKETS = [
+  {key:'EDUCATION',  stateKey:'education',  label:'Education',  color:'var(--edu)',    hex:'#7AA7FF'},
+  {key:'HEALTHCARE', stateKey:'healthcare', label:'Healthcare', color:'var(--health)', hex:'#F2A04A'},
+  {key:'GENERAL',    stateKey:'general',    label:'General',    color:'var(--gen)',    hex:'#4CC9B0'}
+];
+const STEPS = [
+  {id:'initiate', t:'Initiate', s:'Build pacs.008 message'},
+  {id:'comply',   t:'Comply',   s:'ZKP cap + sanctions'},
+  {id:'fx',       t:'Lock FX',  s:'HSM sign · 30 s rate lock'},
+  {id:'settle',   t:'Settle',   s:'Mint into purpose buckets'},
+  {id:'spend',    t:'Spend',    s:'MCC check at the POS'}
+];
+
+let S = null;               // server state
+let cur = 'USD', edu = 40, health = 40, gen = 20;
+let posMerchant = 'MERCHANT_APOLLO_HOSPITAL', posBucket = 'HEALTHCARE';
+let lastIso = null;         // {pacs008, pacs002, e2e, rejected}
+let busy = false, cmpTimer = null;
+const pipe = STEPS.map(s => ({status:'idle', sub:s.s}));
+
+/* ---------- API ---------- */
+async function api(path, opts) {
+  try {
+    const r = await fetch(path, opts);
+    let d = null; try { d = await r.json(); } catch (_) {}
+    return {ok: r.ok, status: r.status, data: d || {}};
+  } catch (e) {
+    return {ok: false, status: 0, data: {detail: 'Cannot reach the server. Is uvicorn running?'}};
+  }
+}
+const post = (path, body) => api(path, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+
+/* ---------- logging ---------- */
+function log(html) {
+  const el = $('log');
+  const t = new Date().toLocaleTimeString('en-GB');
+  el.insertAdjacentHTML('beforeend', `<div><span class="tm">${t}</span>${html}</div>`);
+  el.scrollTop = el.scrollHeight;
+}
+
+/* ---------- pipeline ---------- */
+function renderPipe() {
+  $('pipe').innerHTML = STEPS.map((s, i) => `
+    <div class="pn ${pipe[i].status}">
+      <div class="box"><div class="badge">${pipe[i].status === 'done' ? '✓' : pipe[i].status === 'error' ? '!' : i + 1}</div>
+        <div><div class="t">${s.t}</div><div class="s">${esc(pipe[i].sub)}</div></div></div>
+      <div class="arrow"></div>
+    </div>`).join('');
+}
+function setPipe(i, status, sub) {
+  pipe[i].status = status;
+  if (sub !== undefined) pipe[i].sub = sub;
+  renderPipe();
+}
+function resetPipe(from = 0, to = 4) {
+  for (let i = from; i <= to; i++) { pipe[i].status = 'idle'; pipe[i].sub = STEPS[i].s; }
+  renderPipe();
+}
+
+/* ---------- state ---------- */
+async function loadState() {
+  const r = await api('/api/state');
+  if (!r.ok) { log(`<span class="lg-r">[ERROR]</span> ${esc(r.data.detail || 'Failed to load state')}`); return; }
+  S = r.data;
+  if (!lastIso && S.last_transfer) {
+    lastIso = {pacs008: S.last_transfer.iso20022.pacs008, pacs002: S.last_transfer.iso20022.pacs002,
+               e2e: S.last_transfer.e2e_id, rejected: false, security: S.last_transfer.security,
+               zkp: S.last_transfer.compliance.zkp};
+  }
+  renderAll();
+}
+function renderAll() {
+  if (!S) return;
+  renderSender(); renderReceiver(); renderPOS(); renderIso(); renderLedger(); renderRules();
+  scheduleCompare(0);
+}
+
+/* ---------- sender ---------- */
+function renderSender() {
+  const rates = S.fx_rates;
+  $('segCur').innerHTML = Object.keys(rates).map(c =>
+    `<button data-c="${c}" class="${c === cur ? 'on' : ''}">${FLAG[c] || ''} ${c}</button>`).join('');
+  $('segCur').querySelectorAll('button').forEach(b => b.onclick = () => { cur = b.dataset.c; renderSender(); scheduleCompare(); });
+
+  const info = rates[cur];
+  $('oracleLbl').textContent = `Oracle · ${cur}/INR`;
+  $('oracleVal').textContent = `1 ${cur} = ₹${info.rate.toFixed(2)}`;
+  $('balVal').textContent = `${(S.sender_balances[cur] || 0).toLocaleString('en-US', {minimumFractionDigits: 2})} ${cur}`;
+  $('nodeVal').textContent = `Node: ${info.bank}`;
+  $('amtCur').textContent = cur;
+  const amts = cur === 'USD' ? [500, 1000, 5000, 25000, 260000] : [1000, 5000, 20000];
+  $('quick').innerHTML = amts.map(a => `<button class="chip" data-a="${a}">${a.toLocaleString('en-US')}</button>`).join('');
+  $('quick').querySelectorAll('button').forEach(b => b.onclick = () => { $('inAmount').value = b.dataset.a; updatePreview(); scheduleCompare(); });
+
+  const cap = S.cap;
+  $('capTxt').textContent = `${usd0(cap.used_usd)} / ${usd0(cap.limit_usd)}`;
+  $('capBar').style.width = Math.min(100, cap.used_usd / cap.limit_usd * 100) + '%';
+  updatePreview();
+}
+function syncSplit() {
+  gen = 100 - edu - health;
+  $('slEdu').value = edu; $('slHealth').value = health;
+  $('vEdu').textContent = edu + '%'; $('vHealth').textContent = health + '%'; $('vGen').textContent = gen + '%';
+  $('barE').style.width = edu + '%'; $('barH').style.width = health + '%'; $('barG').style.width = gen + '%';
+  updatePreview(); scheduleCompare();
+}
+function updatePreview() {
+  if (!S) return;
+  const amt = parseFloat($('inAmount').value) || 0;
+  const rate = S.fx_rates[cur].rate;
+  const gross = amt * rate;
+  $('prevTotal').textContent = inr0(gross);
+  $('prevRate').textContent = `${amt.toLocaleString('en-US')} ${cur} × ₹${rate.toFixed(2)} · rate locked for ${S.fx_lock_seconds} s on send`;
+  $('inrEdu').textContent = '→ ' + inr0(gross * edu / 100);
+  $('inrHealth').textContent = '→ ' + inr0(gross * health / 100);
+  $('inrGen').textContent = '→ ' + inr0(gross * gen / 100);
+}
+
+/* ---------- receiver ---------- */
+let prevWallet = null;
+function renderReceiver() {
+  const w = S.receiver_inr;
+  $('recTotal').textContent = inr0(w.total);
+  const total = w.total;
+  const R = 54, C = 2 * Math.PI * R;
+  let off = 0, svg = `<circle cx="70" cy="70" r="${R}" stroke="#0A1330"></circle>`;
+  if (total > 0) {
+    BUCKETS.forEach(b => {
+      const frac = w[b.stateKey] / total, len = frac * C;
+      if (len > 0.5) svg += `<circle cx="70" cy="70" r="${R}" stroke="${b.hex}" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-off}"></circle>`;
+      off += len;
+    });
+  }
+  $('donut').innerHTML = svg;
+
+  const rules = S.rules;
+  $('buckets').innerHTML = BUCKETS.map(b => {
+    const rule = rules[b.key];
+    const hint = rule.any_mcc ? 'Any MCC except prohibited' : 'MCC ' + rule.mccs.slice(0, 4).map(m => m.mcc).join(' · ');
+    const pct = total > 0 ? w[b.stateKey] / total : 0;
+    const ticks = Array.from({length: 10}, (_, i) => `<s style="${i < Math.round(pct * 10) ? 'background:' + b.hex : ''}"></s>`).join('');
+    const grew = prevWallet && w[b.stateKey] > prevWallet[b.stateKey];
+    return `<div class="bk ${grew ? 'flash' : ''}" id="bk-${b.key}">
+      <div class="h"><span class="n"><i style="background:${b.hex}"></i>${b.label}</span><b>${inr0(w[b.stateKey])}</b></div>
+      <div class="m">${hint}</div><div class="tk">${ticks}</div></div>`;
+  }).join('');
+  prevWallet = {...w};
+  setTimeout(() => document.querySelectorAll('.bk.flash').forEach(e => e.classList.remove('flash')), 1200);
+}
+
+function renderPOS() {
+  $('merchants').innerHTML = S.merchants.map(m => `
+    <button class="mc ${m.id === posMerchant ? 'on' : ''}" data-m="${m.id}">
+      <span class="ic">${m.icon}</span>
+      <span><span class="nm">${esc(m.name)}</span><br><span class="tg">MCC ${m.mcc}</span><br><span class="tg">${esc(m.terminal)}</span></span>
+    </button>`).join('');
+  $('merchants').querySelectorAll('button').forEach(b => b.onclick = () => selectMerchant(b.dataset.m));
+  $('segBucket').innerHTML = BUCKETS.map(b =>
+    `<button data-b="${b.key}" class="${b.key === posBucket ? 'on' : ''}">${b.label}</button>`).join('');
+  $('segBucket').querySelectorAll('button').forEach(b => b.onclick = () => selectBucket(b.dataset.b));
+  drawQR();
+}
+function selectMerchant(id) { posMerchant = id; renderPOS(); resetResult(); }
+function selectBucket(b) { posBucket = b; renderPOS(); resetResult(); }
+function resetResult() {
+  const r = $('posResult'); r.className = 'result';
+  r.innerHTML = "The merchant's 4-digit MCC travels in the QR. The contract checks it against the bucket.";
+}
+
+/* deterministic pseudo-QR drawn from the payload string */
+function qrPayload() {
+  const m = S && S.merchants.find(x => x.id === posMerchant);
+  return m ? `upi://pay?pa=${m.id.toLowerCase()}@purposepay&mc=${m.mcc}&tn=PurposePay` : '';
+}
+function drawQR() {
+  const text = qrPayload(); if (!text) return;
+  $('qrPayload').textContent = text;
+  const N = 25; let h = 2166136261;
+  for (const ch of text) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+  if (!h) h = 1;
+  const rnd = () => { h ^= h << 13; h >>>= 0; h ^= h >>> 17; h ^= h << 5; h >>>= 0; return h / 4294967296; };
+  const g = Array.from({length: N}, () => Array.from({length: N}, () => rnd() > 0.52));
+  const finder = (ox, oy) => {
+    for (let y = -1; y <= 7; y++) for (let x = -1; x <= 7; x++) {
+      const gx = ox + x, gy = oy + y; if (gx < 0 || gy < 0 || gx >= N || gy >= N) continue;
+      const edge = x === 0 || y === 0 || x === 6 || y === 6, core = x >= 2 && x <= 4 && y >= 2 && y <= 4;
+      g[gy][gx] = (x >= 0 && x <= 6 && y >= 0 && y <= 6) && (edge || core);
+    }
+  };
+  finder(0, 0); finder(N - 7, 0); finder(0, N - 7);
+  let out = '';
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (g[y][x]) out += `<rect x="${x}" y="${y}" width="1" height="1" fill="#0A1330"/>`;
+  $('qr').innerHTML = out;
+}
+
+/* ---------- compare ---------- */
+function scheduleCompare(delay = 220) { clearTimeout(cmpTimer); cmpTimer = setTimeout(loadCompare, delay); }
+async function loadCompare() {
+  const amt = parseFloat($('inAmount').value) || 0;
+  if (amt <= 0) { $('p-cmp').innerHTML = '<div class="empty">Enter an amount to compare the two routes.</div>'; return; }
+  const r = await api(`/api/compare?currency=${cur}&amount=${amt}&edu_pct=${edu}&health_pct=${health}&gen_pct=${gen}`);
+  if (r.ok) renderCompare(r.data); else $('p-cmp').innerHTML = `<div class="empty">${esc(r.data.detail || 'Comparison unavailable')}</div>`;
+}
+function renderCompare(d) {
+  const sw = d.traditional_swift, pp = d.purposepay_cbdc, g = d.gross_inr || 1;
+  const bk = a => `<div class="bkt"><div>Edu<b>${inr0(a.education_inr)}</b></div><div>Health<b>${inr0(a.healthcare_inr)}</b></div><div>Gen<b>${inr0(a.general_inr)}</b></div></div>`;
+  $('p-cmp').innerHTML = `
+    <div class="vs sw">
+      <div class="hd"><span>Traditional SWIFT wire</span><b>${inr0(sw.net_received_inr)}</b></div>
+      <div class="bar"><i style="width:${sw.net_received_inr / g * 100}%"></i></div>
+      <div class="ln"><span>Wire fee</span><b class="neg">−${inr0(sw.wire_fee_inr)}</b></div>
+      <div class="ln"><span>FX spread (2.5%)</span><b class="neg">−${inr0(sw.fx_markup_inr)}</b></div>
+      <div class="ln"><span>Correspondent banks</span><b class="neg">−${inr0(sw.intermediary_fees_inr)}</b></div>
+      <div class="ln t"><span>Total fees (${d.fee_pct_of_gross}%)</span><b class="neg">−${inr0(sw.total_fees_inr)}</b></div>
+      <div class="meta"><span>Time <b>${sw.time_taken}</b></span><span>Hops <b>${sw.hops}</b></span></div>
+      ${bk(sw.allocations)}
+    </div>
+    <div class="vs pp">
+      <div class="hd"><span>PurposePay e₹ bridge</span><b>${inr0(pp.net_received_inr)}</b></div>
+      <div class="bar"><i style="width:100%"></i></div>
+      <div class="ln"><span>Intermediary fees</span><b>${inr0(pp.total_fees_inr)} (near-zero)</b></div>
+      <div class="meta"><span>Time <b>${pp.time_taken}</b></span><span>Route <b>${pp.hops}</b></span></div>
+      ${bk(pp.allocations)}
+    </div>
+    <div class="save"><small>Value kept by the family</small><b>${inr0(d.savings.direct_inr)} (${d.savings.percentage}%)</b><span>plus ${d.savings.time_saved} faster, and every rupee purpose-bound</span></div>
+    <p class="note">${esc(d.model_note)}</p>`;
+}
+
+/* ---------- ISO 20022 ---------- */
+function hl(xml) {
+  return esc(xml)
+    .replace(/(&lt;!--.*?--&gt;)/g, '<span class="c">$1</span>')
+    .replace(/(&lt;\/?)([\w:.]+)/g, '$1<span class="t">$2</span>')
+    .replace(/&gt;([^&\n]+)(?=&lt;)/g, '&gt;<span class="v">$1</span>');
+}
+function renderIso() {
+  const el = $('p-iso');
+  if (!lastIso) { el.innerHTML = '<div class="empty">Send a transfer to see the ISO 20022 pacs.008 instruction (with the purpose split) and the pacs.002 status reply.</div>'; return; }
+  const kv = [];
+  kv.push(`<span>End-to-end ID</span><code>${esc(lastIso.e2e)}</code>`);
+  if (lastIso.security) kv.push(`<span>HSM signature</span><code>${esc(lastIso.security.signature)} (simulated)</code>`);
+  if (lastIso.zkp) kv.push(`<span>Cap proof</span><code>${esc(lastIso.zkp.proof)} → ${esc(lastIso.zkp.public_output)}</code>`);
+  el.innerHTML = `
+    <div class="kv">${kv.join('')}</div>
+    <div class="h4"><span>pacs.008 · credit transfer + purpose split</span></div>
+    <pre class="xml">${hl(lastIso.pacs008)}</pre>
+    <div class="h4"><span>pacs.002 · status report</span>${lastIso.rejected ? '<span class="tag bad">RJCT</span>' : '<span class="zk">ACCC</span>'}</div>
+    <pre class="xml">${hl(lastIso.pacs002)}</pre>
+    <p class="note">Only the SplmtryData envelope is PurposePay-specific. The rest is standard ISO 20022, so legacy core banking systems keep working.</p>`;
+}
+
+/* ---------- ledger ---------- */
+function renderLedger() {
+  const t = S.tiers;
+  $('p-led').innerHTML = `
+    <div class="tiers">
+      <div class="tier"><small>Tier 1 · RBI issuer</small><b>${inr0(t.tier1_issued_inr)}</b><span>e₹ issued</span></div>
+      <div class="tier"><small>Tier 2 · Bank nodes</small><b>${inr0(t.tier2_spent_inr)}</b><span>spent at merchants · ${inr0(t.tier2_outstanding_inr)} in wallets</span></div>
+    </div>
+    <div class="h4"><span>Hash-chained blocks</span><span class="tag">height ${S.ledger_height}</span></div>
+    ${S.ledger.map(b => `<div class="blk"><div class="hh">#${b.height}</div><div><span class="kd ${b.kind}">${b.kind}</span>${esc(b.summary)}<div class="hs">${b.time} · ${b.tier} · ${b.hash.slice(0, 16)}… ← ${b.prev.slice(0, 8)}…</div></div></div>`).join('')}`;
+}
+
+/* ---------- rules ---------- */
+function renderRules() {
+  const rules = S.rules;
+  $('p-rul').innerHTML = BUCKETS.map(b => {
+    const r = rules[b.key];
+    const allowed = r.any_mcc ? '<span class="tag">any MCC</span>' : r.mccs.map(m => `<span class="tag">${m.mcc} ${esc(m.name)}</span>`).join('');
+    const prohibited = r.prohibited.map(m => `<span class="tag bad">${m.mcc} ${esc(m.name)}</span>`).join('');
+    const terms = r.terminals.length ? `<div class="h4" style="margin:9px 0 6px"><span>Designated terminals</span></div><div class="tags">${r.terminals.map(x => `<span class="tag">${x}</span>`).join('')}</div>` : '';
+    return `<div class="rule"><h5><i style="background:${b.hex}"></i>${b.label} bucket</h5>
+      <div class="tags">${allowed}</div>
+      ${prohibited ? `<div class="h4" style="margin:9px 0 6px"><span>Prohibited</span></div><div class="tags">${prohibited}</div>` : ''}${terms}</div>`;
+  }).join('') + `<p class="note">The MCC rides in the standard UPI QR payload (parameter mc), so merchants need no new hardware. Parent MCC alone is not enough for specialised buckets: the registered terminal must also be designated.</p>`;
+}
+
+/* ---------- actions ---------- */
+async function doTransfer() {
+  if (busy) return; busy = true; $('btnSend').disabled = true;
+  const body = {currency: cur, amount: parseFloat($('inAmount').value), edu_pct: edu, health_pct: health, gen_pct: gen};
+  resetPipe(); setPipe(0, 'active', 'Building pacs.008…');
+  log(`<span class="lg-c">[CORRIDOR]</span> Initiating ${body.amount} ${cur} via ${esc(S.fx_rates[cur].bank)}…`);
+  const r = await post('/api/transfer', body);
+  const d = r.data;
+  if (r.ok) {
+    const ms = Object.fromEntries(d.steps.map(s => [s.id, s.ms]));
+    const subs = {
+      initiate: `pacs.008 · ${ms.initiate} ms`,
+      comply: 'ZKP + sanctions clear',
+      fx: `₹${d.fx.rate.toFixed(2)}/${cur} locked ${d.fx.locked_for_s} s`,
+      settle: `Minted ${inr0(d.gross_inr)} · ${ms.settle} ms`
+    };
+    ['initiate', 'comply', 'fx', 'settle'].forEach((id, i) => { if (i) setPipe(i, 'idle'); });
+    for (let i = 0; i < 4; i++) {
+      const id = ['initiate', 'comply', 'fx', 'settle'][i];
+      setPipe(i, 'active'); await sleep(330); setPipe(i, 'done', subs[id]);
+    }
+    setPipe(4, 'idle', 'Scan a QR in the POS');
+    lastIso = {pacs008: d.iso20022.pacs008, pacs002: d.iso20022.pacs002, e2e: d.e2e_id, rejected: false,
+               security: d.security, zkp: d.compliance.zkp};
+    log(`<span class="lg-b">[SETTLED]</span> ${esc(d.message)}`);
+    log(`<span class="lg-p">[COMPLIANCE]</span> Cap proof ${esc(d.compliance.zkp.public_output)} · sanctions ${esc(d.compliance.sanctions.result)} · HSM-signed ${esc(d.security.signature.slice(0, 12))}…`);
+    log(`<span class="lg-p">[ENGINE]</span> In-memory settlement took ${d.engine_ms} ms (simulation). Production target: under 3 s.`);
+    renderCompare(d.comparison);
+  } else {
+    const idx = Math.max(0, STEPS.findIndex(s => s.id === d.failed_step));
+    for (let i = 0; i < idx; i++) setPipe(i, 'done', i === 0 ? 'pacs.008 built' : STEPS[i].s);
+    setPipe(idx, 'error', d.failed_step === 'comply' ? 'Cap exceeded · proof failed' : (d.detail || 'Rejected').slice(0, 46));
+    if (d.iso20022) lastIso = {pacs008: d.iso20022.pacs008, pacs002: d.iso20022.pacs002, e2e: d.e2e_id, rejected: true, zkp: d.compliance && d.compliance.zkp};
+    log(`<span class="lg-r">[REJECTED]</span> ${esc(d.detail || 'Transfer failed')}`);
+  }
+  await loadState();
+  busy = false; $('btnSend').disabled = false;
+  return r.ok;
+}
+
+async function doPay() {
+  if (busy) return; busy = true; $('btnPay').disabled = true;
+  const body = {merchant_id: posMerchant, category: posBucket, amount_inr: parseFloat($('posAmt').value)};
+  const m = S.merchants.find(x => x.id === posMerchant);
+  const res = $('posResult'); res.className = 'result'; res.innerHTML = `Scanning ${esc(m.name)} · reading MCC ${m.mcc}…`;
+  $('qrbox').classList.add('scanning'); setPipe(4, 'active', `Checking MCC ${m.mcc}…`);
+  log(`<span class="lg-c">[POS]</span> ₹${body.amount_inr} at ${esc(m.name)} (MCC ${m.mcc}, ${esc(m.terminal)}) from ${posBucket} e₹…`);
+  await sleep(900);
+  const r = await post('/api/pay', body);
+  $('qrbox').classList.remove('scanning');
+  const d = r.data, det = d.details || {};
+  if (r.ok) {
+    res.className = 'result ok';
+    res.innerHTML = `<b>✓ Approved · MCC ${det.mcc}</b>${esc(d.message)}`;
+    setPipe(4, 'done', `MCC ${det.mcc} approved`);
+    log(`<span class="lg-g">[APPROVED]</span> ${esc(d.message)}`);
+  } else {
+    res.className = 'result bad';
+    const reason = {PURPOSE_BOUND_MISMATCH:'Purpose-bound block', TERMINAL_NOT_DESIGNATED:'Terminal not designated', PROHIBITED_MCC:'Prohibited category', INSUFFICIENT_FUNDS:'Insufficient funds'}[det.reason] || 'Blocked';
+    res.innerHTML = `<b>⛔ Blocked · ${esc(reason)}</b>${esc(d.detail || 'Payment rejected')}`;
+    setPipe(4, 'error', reason);
+    log(`<span class="lg-r">[BLOCKED]</span> ${esc(d.detail || 'Payment rejected')}`);
+  }
+  await loadState();
+  busy = false; $('btnPay').disabled = false;
+}
+
+async function doReset(quiet) {
+  if (busy) return;
+  const r = await api('/api/reset', {method: 'POST'});
+  if (!r.ok) { log(`<span class="lg-r">[ERROR]</span> Reset failed`); return; }
+  S = r.data.state; lastIso = null; prevWallet = null; resetPipe(); resetResult();
+  $('log').innerHTML = ''; log('Demo state reset. Balances, wallet, cap usage and ledger are clean.');
+  renderAll();
+}
+
+/* ---------- guided demo with voice ---------- */
+let voiceOn = true, demoId = 0, pickedVoice = null;
+const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+function pickVoice() {
+  if (!canSpeak) return;
+  const vs = speechSynthesis.getVoices(); if (!vs.length) return;
+  const rank = v => (/en[-_]IN/i.test(v.lang) ? 40 : /en[-_]GB/i.test(v.lang) ? 25 : /^en/i.test(v.lang) ? 20 : 0)
+    + (/google|natural|neural|online|premium|enhanced/i.test(v.name) ? 10 : 0);
+  pickedVoice = vs.slice().sort((x, y) => rank(y) - rank(x))[0];
+}
+if (canSpeak) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+
+// Speak text sentence by sentence (long utterances get cut off by some browsers).
+// Resolves when finished, muted/unsupported (after a reading-time delay), or demo stopped.
+function say(text, id) {
+  const alive = () => id === demoId;
+  const readMs = Math.max(1800, text.length * 62);
+  if (!canSpeak || !voiceOn) return waitAlive(readMs, id);
+  return new Promise(resolve => {
+    const parts = text.match(/[^.!?]+[.!?]*/g).map(x => x.trim()).filter(Boolean);
+    let i = 0, guard;
+    const done = () => { clearTimeout(guard); $('narr').classList.remove('talk'); resolve(); };
+    const next = () => {
+      if (!alive() || !voiceOn) { speechSynthesis.cancel(); return done(); }
+      if (i >= parts.length) return done();
+      const u = new SpeechSynthesisUtterance(parts[i++]);
+      if (pickedVoice) { u.voice = pickedVoice; u.lang = pickedVoice.lang; } else u.lang = 'en-IN';
+      u.rate = 0.97; u.pitch = 1;
+      u.onend = next; u.onerror = next;
+      clearTimeout(guard); guard = setTimeout(next, Math.max(4000, u.text.length * 120)); // safety net
+      $('narr').classList.add('talk');
+      speechSynthesis.speak(u);
+    };
+    speechSynthesis.cancel(); next();
+  });
+}
+function waitAlive(ms, id) {
+  return new Promise(res => { const t0 = Date.now(); (function tick() {
+    if (id !== demoId || Date.now() - t0 >= ms) return res(); setTimeout(tick, 120); })(); });
+}
+function caption(step, text) {
+  $('narr').classList.add('on'); $('narrStep').textContent = step; $('narrText').textContent = text;
+}
+function focusOn(el, block) {
+  if (el) el.scrollIntoView({behavior: 'smooth', block: block || 'center'});
+}
+function showTab(t) { const b = $('tabs').querySelector(`[data-t="${t}"]`); if (b) b.click(); }
+function stopDemo() { demoId++; if (canSpeak) speechSynthesis.cancel(); }
+
+async function runDemo() {
+  if (demoRunning()) { stopDemo(); endDemo(true); return; }
+  if (busy) return;
+  const id = ++demoId, ok = () => id === demoId;
+  const cards = document.querySelectorAll('main.grid > section.card');
+  const [cSender, cRecv, cInsight] = cards;
+  $('btnDemo').textContent = '■ Stop demo'; $('btnDemo').dataset.run = '1';
+  if (canSpeak) speechSynthesis.cancel();
+
+  const talk = async (label, text) => { if (!ok()) return; caption(label, text); await say(text, id); };
+  const pay = async (m, bucket, amt) => {
+    selectMerchant(m); selectBucket(bucket); if (amt) $('posAmt').value = amt;
+    await waitAlive(900, id); if (ok()) await doPay();
+  };
+
+  await doReset(true); if (!ok()) return;
+  cur = 'USD'; $('inAmount').value = 1000; edu = 40; health = 40; syncSplit(); renderSender();
+  showTab('cmp'); focusOn(document.querySelector('header.top'), 'start');
+
+  // Intro
+  await talk('Intro', 'Welcome to PurposePay. Today, when a worker abroad sends money home, the family can spend it on anything, and nobody can guarantee it reaches school fees or hospital bills. PurposePay changes that. The digital rupee itself carries its purpose, and the rules are enforced by the money, not by paperwork.');
+
+  // 1 Sender + transfer
+  if (!ok()) return;
+  focusOn(cSender);
+  await talk('1 / 6 · Send', 'Meet an expat in Dubai. He sends one thousand US dollars home, and splits it, forty percent for education, forty percent for healthcare, and twenty percent for general use. This split is set before the money is even minted.');
+  if (!ok()) return;
+  const tx = doTransfer();
+  focusOn($('pipe'), 'start');
+  await talk('1 / 6 · Settle', 'Now watch the lifecycle. The F X oracle locks the rate for thirty seconds. A zero knowledge proof confirms the annual cap, without revealing the sender\'s balance or history. Sanctions screening passes. The Reserve Bank issues the e-rupee, and the commercial bank distributes it into three purpose buckets. All of it settles in seconds.');
+  await tx; if (!ok()) return;
+  focusOn(cInsight);
+  await talk('1 / 6 · Cost', 'The comparison panel shows the modelled cost and delay of the traditional SWIFT route against PurposePay. These numbers are simulated for the demo, but the gap is the point.');
+
+  // 2 valid purchase
+  if (!ok()) return;
+  focusOn(cRecv);
+  await talk('2 / 6 · Allowed', 'Now the receiver, back in India, holds three purpose-bound buckets. She scans the QR code at Apollo Hospital. The merchant category code, eighty sixty two, travels inside the QR, and the contract checks it against the healthcare bucket. It matches, so the payment is approved.');
+  await pay('MERCHANT_APOLLO_HOSPITAL', 'HEALTHCARE', 5000); if (!ok()) return;
+  await talk('2 / 6 · Allowed', 'Approved. The money reached a hospital, exactly as the sender intended.');
+
+  // 3 wrong category
+  await talk('3 / 6 · Blocked', 'Next, a liquor store. Its category code is fifty nine twenty one. She tries to pay with healthcare tokens.');
+  await pay('MERCHANT_LIQUOR_STORE', 'HEALTHCARE', 1000); if (!ok()) return;
+  await talk('3 / 6 · Blocked', 'Blocked. Healthcare tokens simply cannot be spent outside healthcare merchants. No manual check was needed.');
+
+  // 4 terminal class
+  await talk('4 / 6 · Blocked', 'A subtler case. The hospital cafeteria shares the hospital\'s parent category, eighty sixty two. But its terminal is not a designated billing terminal.');
+  await pay('MERCHANT_HOSPITAL_CAFETERIA', 'HEALTHCARE'); if (!ok()) return;
+  await talk('4 / 6 · Blocked', 'Blocked again. That is why we enforce the terminal class as well as the category code. A sandwich is not a medical bill.');
+
+  // 5 general bucket prohibited
+  await talk('5 / 6 · Policy', 'Even the general bucket has limits. Prohibited categories, such as liquor stores, are refused by policy, so the flexible money is still safe.');
+  await pay('MERCHANT_LIQUOR_STORE', 'GENERAL'); if (!ok()) return;
+  await talk('5 / 6 · Policy', 'Refused, even from the general bucket.');
+
+  // 6 education
+  await talk('6 / 6 · Allowed', 'Finally, education. D P S School, category eighty two eleven, accepts education tokens.');
+  await pay('MERCHANT_DPS_SCHOOL', 'EDUCATION', 8000); if (!ok()) return;
+  await talk('6 / 6 · Allowed', 'Approved. School fees paid straight from the education bucket.');
+
+  // Audit trail
+  if (!ok()) return;
+  showTab('iso'); focusOn(cInsight);
+  await talk('Audit trail', 'Every decision produces an I S O two zero zero two two standard message, a payment instruction and a status report, carrying the purpose allocation. Approved payments return accepted. Blocked ones return rejected, with a reason code.');
+  if (!ok()) return;
+  showTab('led');
+  await talk('Audit trail', 'And every step is recorded on the two-tier ledger, so regulators and banks see the same truth.');
+  if (!ok()) return;
+  showTab('rul');
+  await talk('Rules', 'The rules tab shows the policy behind each decision. The regulator can change a rule without touching the sender or the merchant.');
+
+  if (!ok()) return;
+  focusOn(document.querySelector('header.top'), 'start');
+  await talk('Done', 'That is PurposePay. Faster, cheaper, compliant by design, and money that always knows its purpose. Thank you.');
+  if (ok()) endDemo(false);
+}
+function demoRunning() { return $('btnDemo').dataset.run === '1'; }
+function endDemo(stopped) {
+  $('btnDemo').textContent = '▶ Run guided demo'; delete $('btnDemo').dataset.run;
+  $('narr').classList.remove('talk');
+  if (stopped) $('narr').classList.remove('on'); else setTimeout(() => { if (!demoRunning()) $('narr').classList.remove('on'); }, 6000);
+}
+
+/* ---------- wiring ---------- */
+window.addEventListener('DOMContentLoaded', async () => {
+  renderPipe();
+  $('slEdu').oninput = () => { edu = +$('slEdu').value; if (edu + health > 100) health = 100 - edu; syncSplit(); };
+  $('slHealth').oninput = () => { health = +$('slHealth').value; if (edu + health > 100) edu = 100 - health; syncSplit(); };
+  $('inAmount').oninput = () => { updatePreview(); scheduleCompare(); };
+  $('btnSend').onclick = doTransfer;
+  $('btnPay').onclick = doPay;
+  $('btnReset').onclick = () => doReset();
+  $('btnDemo').onclick = runDemo;
+  $('btnVoice').onclick = () => {
+    voiceOn = !voiceOn; $('btnVoice').textContent = voiceOn ? '🔊 Voice on' : '🔇 Voice off';
+    if (!voiceOn && canSpeak) speechSynthesis.cancel();
+  };
+  if (!canSpeak) { $('btnVoice').textContent = '🔇 No voice support'; $('btnVoice').disabled = true; voiceOn = false; }
+  window.addEventListener('beforeunload', () => { if (canSpeak) speechSynthesis.cancel(); });
+  $('btnClear').onclick = () => { $('log').innerHTML = ''; };
+  $('tabs').querySelectorAll('button').forEach(b => b.onclick = () => {
+    $('tabs').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('.pane').forEach(p => p.classList.toggle('on', p.id === 'p-' + b.dataset.t));
+  });
+  syncSplit();
+  await loadState();
+  log('Ready. Pick a corridor, set the purpose split and mint e₹, or press “Run guided demo”.');
+});
+</script>
+</body>
+</html>
+
