@@ -32,7 +32,7 @@ FX_LOCK_SECONDS = 30
 
 FX_RATES: Dict[str, Dict[str, Any]] = {
     "USD": {"rate": 83.50, "bank": "Citi New York node", "country": "USA"},
-    "AED": {"rate": 22.85, "bank": "Emirates NBD Â· CBUAE node", "country": "UAE"},
+    "AED": {"rate": 22.85, "bank": "Emirates NBD \u00b7 CBUAE node", "country": "UAE"},
     "HKD": {"rate": 10.72, "bank": "HSBC Hong Kong node", "country": "Hong Kong"},
     "SGD": {"rate": 62.40, "bank": "DBS Singapore node", "country": "Singapore"},
 }
@@ -76,31 +76,31 @@ BUCKET_RULES: Dict[str, Dict[str, Any]] = {
 MERCHANTS: Dict[str, Dict[str, Any]] = {
     "MERCHANT_APOLLO_HOSPITAL": {
         "name": "Apollo Hospital", "mcc": 8062, "terminal": "BILLING",
-        "mcc_label": "Hospitals", "icon": "ðŸ¥",
+        "mcc_label": "Hospitals", "icon": "\U0001f3e5",
     },
     "MERCHANT_APOLLO_PHARMACY": {
         "name": "Apollo Pharmacy", "mcc": 5912, "terminal": "PHARMACY",
-        "mcc_label": "Pharmacies", "icon": "ðŸ’Š",
+        "mcc_label": "Pharmacies", "icon": "\U0001f48a",
     },
     "MERCHANT_HOSPITAL_CAFETERIA": {
         "name": "Hospital Cafeteria", "mcc": 8062, "terminal": "CAFETERIA",
-        "mcc_label": "Hospitals (parent MCC)", "icon": "ðŸ½ï¸",
+        "mcc_label": "Hospitals (parent MCC)", "icon": "\U0001f37d\ufe0f",
     },
     "MERCHANT_DPS_SCHOOL": {
         "name": "DPS School", "mcc": 8211, "terminal": "BILLING",
-        "mcc_label": "Schools", "icon": "ðŸŽ“",
+        "mcc_label": "Schools", "icon": "\U0001f393",
     },
     "MERCHANT_GENERAL_STORE": {
         "name": "City Supermarket", "mcc": 5411, "terminal": "RETAIL",
-        "mcc_label": "Grocery stores", "icon": "ðŸ›’",
+        "mcc_label": "Grocery stores", "icon": "\U0001f6d2",
     },
     "MERCHANT_ELECTRONICS": {
         "name": "Electronics Mart", "mcc": 5732, "terminal": "RETAIL",
-        "mcc_label": "Electronics stores", "icon": "ðŸ’»",
+        "mcc_label": "Electronics stores", "icon": "\U0001f4bb",
     },
     "MERCHANT_LIQUOR_STORE": {
         "name": "Wine & Spirits", "mcc": 5921, "terminal": "RETAIL",
-        "mcc_label": "Liquor stores", "icon": "ðŸ·",
+        "mcc_label": "Liquor stores", "icon": "\U0001f377",
     },
 }
 
@@ -327,8 +327,8 @@ class CBDCSmartContract:
                 "intermediary_fees_inr": intermediary_fees_inr,
                 "total_fees_inr": total_swift_fees,
                 "net_received_inr": swift_net_inr,
-                "time_taken": "1â€“3 business days",
-                "hops": "2â€“4 correspondent banks",
+                "time_taken": "1\u20133 business days",
+                "hops": "2\u20134 correspondent banks",
                 "allocations": split(swift_net_inr),
             },
             "purposepay_cbdc": {
@@ -341,7 +341,7 @@ class CBDCSmartContract:
             "savings": {
                 "direct_inr": savings_inr,
                 "percentage": round(savings_pct, 2),
-                "time_saved": "1â€“3 days",
+                "time_saved": "1\u20133 days",
             },
             "model_note": (
                 "SWIFT costs are modelled: 1% wire fee (min INR 500), 2.5% FX spread, "
@@ -414,7 +414,7 @@ class CBDCSmartContract:
         if not proof["verified"]:
             pacs002 = self._pacs002(e2e, "RJCT")
             msg = (
-                f"Regulatory cap exceeded. Proof failed: this transfer (â‰ˆ ${amount_usd:,.2f}) is above "
+                f"Regulatory cap exceeded. Proof failed: this transfer (\u2248 ${amount_usd:,.2f}) is above "
                 f"the remaining annual limit of ${self.cap_usd - self.used_usd:,.2f}."
             )
             return False, msg, {
@@ -451,9 +451,9 @@ class CBDCSmartContract:
 
         blocks = [
             self._append_block("ISSUE", "Tier 1",
-                               f"RBI node issues â‚¹{gross_inr:,.2f} eâ‚¹ against {amount:,.2f} {currency} Â· {e2e}"),
+                               f"RBI node issues \u20b9{gross_inr:,.2f} e\u20b9 against {amount:,.2f} {currency} \u00b7 {e2e}"),
             self._append_block("DISTRIBUTE", "Tier 2",
-                               f"Bank node credits wallet: Edu â‚¹{edu_amt:,.0f} Â· Health â‚¹{health_amt:,.0f} Â· Gen â‚¹{gen_amt:,.0f}"),
+                               f"Bank node credits wallet: Edu \u20b9{edu_amt:,.0f} \u00b7 Health \u20b9{health_amt:,.0f} \u00b7 Gen \u20b9{gen_amt:,.0f}"),
         ]
         steps.append({"id": "settle", "title": "Settle", "detail": "minted into buckets",
                       "ms": round((time.perf_counter() - t0) * 1000, 3)})
@@ -462,8 +462,8 @@ class CBDCSmartContract:
         comparison = self.calculate_comparison(currency, amount, edu_pct, health_pct, gen_pct)
 
         message = (
-            f"Successfully minted â‚¹{gross_inr:,.2f} e-Rupee from {amount:,.2f} {currency}. "
-            f"Allocated: Education â‚¹{edu_amt:,.2f}, Healthcare â‚¹{health_amt:,.2f}, General â‚¹{gen_amt:,.2f}."
+            f"Successfully minted \u20b9{gross_inr:,.2f} e-Rupee from {amount:,.2f} {currency}. "
+            f"Allocated: Education \u20b9{edu_amt:,.2f}, Healthcare \u20b9{health_amt:,.2f}, General \u20b9{gen_amt:,.2f}."
         )
 
         result = {
@@ -522,7 +522,7 @@ class CBDCSmartContract:
             return False, f"Unknown merchant '{merchant_id}'.", {"reason": "UNKNOWN_MERCHANT", "decision": "BLOCKED"}
         rule = BUCKET_RULES.get(bucket)
         if rule is None:
-            return False, f"Unknown eâ‚¹ bucket '{category}'.", {"reason": "UNKNOWN_BUCKET", "decision": "BLOCKED"}
+            return False, f"Unknown e\u20b9 bucket '{category}'.", {"reason": "UNKNOWN_BUCKET", "decision": "BLOCKED"}
 
         mcc = merchant["mcc"]
         terminal = merchant["terminal"]
@@ -548,13 +548,13 @@ class CBDCSmartContract:
             return block(
                 "PROHIBITED_MCC",
                 f"Transaction Rejection: Prohibited category. {merchant['name']} (MCC {mcc}, "
-                f"{rule['prohibited'][mcc]}) cannot be paid from {rule['label']} eâ‚¹.",
+                f"{rule['prohibited'][mcc]}) cannot be paid from {rule['label']} e\u20b9.",
             )
         if rule["mccs"] is not None and mcc not in rule["mccs"]:
             return block(
                 "PURPOSE_BOUND_MISMATCH",
                 f"Transaction Rejection: Purpose-Bound Token Mismatch. {merchant['name']} (MCC {mcc}, "
-                f"{merchant['mcc_label']}) is not an authorized vendor for {rule['label']} eâ‚¹ tokens.",
+                f"{merchant['mcc_label']}) is not an authorized vendor for {rule['label']} e\u20b9 tokens.",
             )
 
         # Rule 2: terminal must be designated for specialised buckets (blocks cafeteria-style misuse)
@@ -562,7 +562,7 @@ class CBDCSmartContract:
             return block(
                 "TERMINAL_NOT_DESIGNATED",
                 f"Transaction Rejection: Terminal '{terminal}' at {merchant['name']} is not a designated "
-                f"billing terminal for {rule['label']} eâ‚¹ (parent MCC {mcc} alone is not enough).",
+                f"billing terminal for {rule['label']} e\u20b9 (parent MCC {mcc} alone is not enough).",
             )
 
         # Rule 3: sufficient balance in that bucket
@@ -571,7 +571,7 @@ class CBDCSmartContract:
         if available < amount_inr:
             return block(
                 "INSUFFICIENT_FUNDS",
-                f"Insufficient funds in {rule['label']} bucket. Available: â‚¹{available:,.2f}",
+                f"Insufficient funds in {rule['label']} bucket. Available: \u20b9{available:,.2f}",
             )
 
         # Approved: debit the bucket
@@ -580,9 +580,9 @@ class CBDCSmartContract:
         self.tier2_spent_inr += amount_inr
         block_rec = self._append_block(
             "SPEND", "Tier 2",
-            f"â‚¹{amount_inr:,.2f} {rule['label']} eâ‚¹ â†’ {merchant['name']} (MCC {mcc})",
+            f"\u20b9{amount_inr:,.2f} {rule['label']} e\u20b9 \u2192 {merchant['name']} (MCC {mcc})",
         )
-        text = f"Payment of â‚¹{amount_inr:,.2f} to {merchant['name']} authorized via {rule['label']} eâ‚¹ bucket (MCC {mcc})."
+        text = f"Payment of \u20b9{amount_inr:,.2f} to {merchant['name']} authorized via {rule['label']} e\u20b9 bucket (MCC {mcc})."
         details.update({"decision": "APPROVED", "reason": "OK", "block_height": block_rec["height"]})
         self._record_payment(details, text)
         return True, text, details
