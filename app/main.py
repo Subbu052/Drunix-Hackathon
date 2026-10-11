@@ -39,7 +39,7 @@ def _error(message: str, status: int = 400, **extra) -> JSONResponse:
 
 @app.get("/")
 def read_root():
-    return FileResponse(STATIC_DIR / "index.html")
+    return FileResponse(STATIC_DIR / "index.html", media_type="text/html; charset=utf-8")
 
 
 @app.get("/api/health")
