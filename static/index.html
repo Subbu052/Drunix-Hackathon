@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PurposePay | Programmable Cross-Border e₹</title>
+<title>PurposePay | Programmable Cross-Border e&#8377;</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
@@ -245,17 +245,17 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
 
 <header class="top">
   <div class="brand">
-    <div class="logo">₹</div>
+    <div class="logo">&#8377;</div>
     <div>
       <h1>PurposePay <span>Bridge Terminal</span></h1>
-      <p class="sub"><i class="dot"></i> Two-tier ledger live · simulation mode</p>
+      <p class="sub"><i class="dot"></i> Two-tier ledger live &#183; simulation mode</p>
     </div>
   </div>
   <div class="top-r">
-    <div class="oracle"><span class="lbl" id="oracleLbl">Oracle rate</span><b id="oracleVal">…</b></div>
+    <div class="oracle"><span class="lbl" id="oracleLbl">Oracle rate</span><b id="oracleVal">&#8230;</b></div>
     <button class="btn ghost" id="btnReset">Reset demo</button>
-    <button class="btn ghost" id="btnVoice" title="Toggle voice narration">🔊 Voice on</button>
-    <button class="btn primary" id="btnDemo">▶ Run guided demo</button>
+    <button class="btn ghost" id="btnVoice" title="Toggle voice narration">&#128266; Voice on</button>
+    <button class="btn primary" id="btnDemo">&#9654; Run guided demo</button>
   </div>
 </header>
 
@@ -267,14 +267,14 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
 
   <!-- 1. SENDER -->
   <section class="card">
-    <div class="eyebrow"><span class="num">1</span> Sender · abroad</div>
+    <div class="eyebrow"><span class="num">1</span> Sender &#183; abroad</div>
 
     <label class="fl" style="margin-top:0">Corridor</label>
     <div class="seg" id="segCur"></div>
 
     <div class="balance">
       <span class="fl">Available balance</span>
-      <b class="mono" id="balVal">…</b>
+      <b class="mono" id="balVal">&#8230;</b>
       <small id="nodeVal"></small>
     </div>
 
@@ -289,34 +289,34 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
     <div class="sl g"><span class="sw"></span><span>General</span><span class="auto">remainder</span><b id="vGen">20%</b><em id="inrGen"></em></div>
 
     <div class="preview">
-      <small>Receiver gets (e₹ minted in purpose buckets)</small>
-      <b id="prevTotal">₹0</b>
+      <small>Receiver gets (e&#8377; minted in purpose buckets)</small>
+      <b id="prevTotal">&#8377;0</b>
       <small id="prevRate"></small>
     </div>
 
     <div class="cap">
       <div class="row"><span>Annual cap used <span class="zk">ZKP-checked</span></span><b id="capTxt">$0 / $250,000</b></div>
       <div class="meter"><i id="capBar"></i></div>
-      <p>The ledger sees only “within cap” from a proof, never the sender's balance or history. The cap is a regulator policy value per corridor.</p>
+      <p>The ledger sees only &#8220;within cap&#8221; from a proof, never the sender's balance or history. The cap is a regulator policy value per corridor.</p>
     </div>
 
-    <button class="btn primary wide" id="btnSend">Mint &amp; transfer e₹</button>
+    <button class="btn primary wide" id="btnSend">Mint &amp; transfer e&#8377;</button>
   </section>
 
   <!-- 2. RECEIVER -->
   <section class="card">
-    <div class="eyebrow"><span class="num b">2</span> Receiver · India e₹ wallet</div>
+    <div class="eyebrow"><span class="num b">2</span> Receiver &#183; India e&#8377; wallet</div>
 
     <div class="wallet">
       <div class="donut">
         <svg viewBox="0 0 140 140" id="donut"><circle cx="70" cy="70" r="54" stroke="#0A1330"></circle></svg>
-        <div class="dc"><small>Total e₹</small><b id="recTotal">₹0</b></div>
+        <div class="dc"><small>Total e&#8377;</small><b id="recTotal">&#8377;0</b></div>
       </div>
       <div class="buckets" id="buckets"></div>
     </div>
 
     <div class="pos">
-      <h3>Merchant POS · scan a UPI / e₹ QR</h3>
+      <h3>Merchant POS &#183; scan a UPI / e&#8377; QR</h3>
       <div class="merchants" id="merchants"></div>
       <label class="fl">Spend from bucket</label>
       <div class="seg bk" id="segBucket"></div>
@@ -336,7 +336,7 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
 
   <!-- 3. INSIGHT -->
   <section class="card">
-    <div class="eyebrow"><span class="num c">3</span> Why it matters · live engine</div>
+    <div class="eyebrow"><span class="num c">3</span> Why it matters &#183; live engine</div>
     <div class="tabs" id="tabs">
       <button class="on" data-t="cmp">SWIFT vs PurposePay</button>
       <button data-t="iso">ISO 20022</button>
@@ -352,7 +352,7 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
 
 <section class="card logs">
   <div class="lh"><span>Blockchain explorer logs</span><button id="btnClear">CLEAR</button></div>
-  <div id="log"><div><span class="tm">--:--:--</span>Initializing multi-currency CBDC state engine…</div></div>
+  <div id="log"><div><span class="tm">--:--:--</span>Initializing multi-currency CBDC state engine&#8230;</div></div>
 </section>
 
 <footer>Simulation: in-memory ledger, simulated HSM and ZKP, static FX rates. Production design: permissioned DLT, FIPS 140-2 L3 HSMs, live FX oracles, on-chain ZKP verification.</footer>
@@ -362,10 +362,10 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
 const $ = id => document.getElementById(id);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const inr0 = n => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
-const inr2 = n => '₹' + (Number(n) || 0).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const inr0 = n => '\u20b9' + Math.round(Number(n) || 0).toLocaleString('en-IN');
+const inr2 = n => '\u20b9' + (Number(n) || 0).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const usd0 = n => '$' + Math.round(Number(n) || 0).toLocaleString('en-US');
-const FLAG = {USD:'🇺🇸', AED:'🇦🇪', HKD:'🇭🇰', SGD:'🇸🇬'};
+const FLAG = {USD:'\ud83c\uddfa\ud83c\uddf8', AED:'\ud83c\udde6\ud83c\uddea', HKD:'\ud83c\udded\ud83c\uddf0', SGD:'\ud83c\uddf8\ud83c\uddec'};
 const BUCKETS = [
   {key:'EDUCATION',  stateKey:'education',  label:'Education',  color:'var(--edu)',    hex:'#7AA7FF'},
   {key:'HEALTHCARE', stateKey:'healthcare', label:'Healthcare', color:'var(--health)', hex:'#F2A04A'},
@@ -374,7 +374,7 @@ const BUCKETS = [
 const STEPS = [
   {id:'initiate', t:'Initiate', s:'Build pacs.008 message'},
   {id:'comply',   t:'Comply',   s:'ZKP cap + sanctions'},
-  {id:'fx',       t:'Lock FX',  s:'HSM sign · 30 s rate lock'},
+  {id:'fx',       t:'Lock FX',  s:'HSM sign \u00b7 30 s rate lock'},
   {id:'settle',   t:'Settle',   s:'Mint into purpose buckets'},
   {id:'spend',    t:'Spend',    s:'MCC check at the POS'}
 ];
@@ -410,7 +410,7 @@ function log(html) {
 function renderPipe() {
   $('pipe').innerHTML = STEPS.map((s, i) => `
     <div class="pn ${pipe[i].status}">
-      <div class="box"><div class="badge">${pipe[i].status === 'done' ? '✓' : pipe[i].status === 'error' ? '!' : i + 1}</div>
+      <div class="box"><div class="badge">${pipe[i].status === 'done' ? '\u2713' : pipe[i].status === 'error' ? '!' : i + 1}</div>
         <div><div class="t">${s.t}</div><div class="s">${esc(pipe[i].sub)}</div></div></div>
       <div class="arrow"></div>
     </div>`).join('');
@@ -451,8 +451,8 @@ function renderSender() {
   $('segCur').querySelectorAll('button').forEach(b => b.onclick = () => { cur = b.dataset.c; renderSender(); scheduleCompare(); });
 
   const info = rates[cur];
-  $('oracleLbl').textContent = `Oracle · ${cur}/INR`;
-  $('oracleVal').textContent = `1 ${cur} = ₹${info.rate.toFixed(2)}`;
+  $('oracleLbl').textContent = `Oracle \u00b7 ${cur}/INR`;
+  $('oracleVal').textContent = `1 ${cur} = \u20b9${info.rate.toFixed(2)}`;
   $('balVal').textContent = `${(S.sender_balances[cur] || 0).toLocaleString('en-US', {minimumFractionDigits: 2})} ${cur}`;
   $('nodeVal').textContent = `Node: ${info.bank}`;
   $('amtCur').textContent = cur;
@@ -478,10 +478,10 @@ function updatePreview() {
   const rate = S.fx_rates[cur].rate;
   const gross = amt * rate;
   $('prevTotal').textContent = inr0(gross);
-  $('prevRate').textContent = `${amt.toLocaleString('en-US')} ${cur} × ₹${rate.toFixed(2)} · rate locked for ${S.fx_lock_seconds} s on send`;
-  $('inrEdu').textContent = '→ ' + inr0(gross * edu / 100);
-  $('inrHealth').textContent = '→ ' + inr0(gross * health / 100);
-  $('inrGen').textContent = '→ ' + inr0(gross * gen / 100);
+  $('prevRate').textContent = `${amt.toLocaleString('en-US')} ${cur} \u00d7 \u20b9${rate.toFixed(2)} \u00b7 rate locked for ${S.fx_lock_seconds} s on send`;
+  $('inrEdu').textContent = '\u2192 ' + inr0(gross * edu / 100);
+  $('inrHealth').textContent = '\u2192 ' + inr0(gross * health / 100);
+  $('inrGen').textContent = '\u2192 ' + inr0(gross * gen / 100);
 }
 
 /* ---------- receiver ---------- */
@@ -504,7 +504,7 @@ function renderReceiver() {
   const rules = S.rules;
   $('buckets').innerHTML = BUCKETS.map(b => {
     const rule = rules[b.key];
-    const hint = rule.any_mcc ? 'Any MCC except prohibited' : 'MCC ' + rule.mccs.slice(0, 4).map(m => m.mcc).join(' · ');
+    const hint = rule.any_mcc ? 'Any MCC except prohibited' : 'MCC ' + rule.mccs.slice(0, 4).map(m => m.mcc).join(' \u00b7 ');
     const pct = total > 0 ? w[b.stateKey] / total : 0;
     const ticks = Array.from({length: 10}, (_, i) => `<s style="${i < Math.round(pct * 10) ? 'background:' + b.hex : ''}"></s>`).join('');
     const grew = prevWallet && w[b.stateKey] > prevWallet[b.stateKey];
@@ -576,15 +576,15 @@ function renderCompare(d) {
     <div class="vs sw">
       <div class="hd"><span>Traditional SWIFT wire</span><b>${inr0(sw.net_received_inr)}</b></div>
       <div class="bar"><i style="width:${sw.net_received_inr / g * 100}%"></i></div>
-      <div class="ln"><span>Wire fee</span><b class="neg">−${inr0(sw.wire_fee_inr)}</b></div>
-      <div class="ln"><span>FX spread (2.5%)</span><b class="neg">−${inr0(sw.fx_markup_inr)}</b></div>
-      <div class="ln"><span>Correspondent banks</span><b class="neg">−${inr0(sw.intermediary_fees_inr)}</b></div>
-      <div class="ln t"><span>Total fees (${d.fee_pct_of_gross}%)</span><b class="neg">−${inr0(sw.total_fees_inr)}</b></div>
+      <div class="ln"><span>Wire fee</span><b class="neg">\u2212${inr0(sw.wire_fee_inr)}</b></div>
+      <div class="ln"><span>FX spread (2.5%)</span><b class="neg">\u2212${inr0(sw.fx_markup_inr)}</b></div>
+      <div class="ln"><span>Correspondent banks</span><b class="neg">\u2212${inr0(sw.intermediary_fees_inr)}</b></div>
+      <div class="ln t"><span>Total fees (${d.fee_pct_of_gross}%)</span><b class="neg">\u2212${inr0(sw.total_fees_inr)}</b></div>
       <div class="meta"><span>Time <b>${sw.time_taken}</b></span><span>Hops <b>${sw.hops}</b></span></div>
       ${bk(sw.allocations)}
     </div>
     <div class="vs pp">
-      <div class="hd"><span>PurposePay e₹ bridge</span><b>${inr0(pp.net_received_inr)}</b></div>
+      <div class="hd"><span>PurposePay e\u20b9 bridge</span><b>${inr0(pp.net_received_inr)}</b></div>
       <div class="bar"><i style="width:100%"></i></div>
       <div class="ln"><span>Intermediary fees</span><b>${inr0(pp.total_fees_inr)} (near-zero)</b></div>
       <div class="meta"><span>Time <b>${pp.time_taken}</b></span><span>Route <b>${pp.hops}</b></span></div>
@@ -607,12 +607,12 @@ function renderIso() {
   const kv = [];
   kv.push(`<span>End-to-end ID</span><code>${esc(lastIso.e2e)}</code>`);
   if (lastIso.security) kv.push(`<span>HSM signature</span><code>${esc(lastIso.security.signature)} (simulated)</code>`);
-  if (lastIso.zkp) kv.push(`<span>Cap proof</span><code>${esc(lastIso.zkp.proof)} → ${esc(lastIso.zkp.public_output)}</code>`);
+  if (lastIso.zkp) kv.push(`<span>Cap proof</span><code>${esc(lastIso.zkp.proof)} \u2192 ${esc(lastIso.zkp.public_output)}</code>`);
   el.innerHTML = `
     <div class="kv">${kv.join('')}</div>
-    <div class="h4"><span>pacs.008 · credit transfer + purpose split</span></div>
+    <div class="h4"><span>pacs.008 \u00b7 credit transfer + purpose split</span></div>
     <pre class="xml">${hl(lastIso.pacs008)}</pre>
-    <div class="h4"><span>pacs.002 · status report</span>${lastIso.rejected ? '<span class="tag bad">RJCT</span>' : '<span class="zk">ACCC</span>'}</div>
+    <div class="h4"><span>pacs.002 \u00b7 status report</span>${lastIso.rejected ? '<span class="tag bad">RJCT</span>' : '<span class="zk">ACCC</span>'}</div>
     <pre class="xml">${hl(lastIso.pacs002)}</pre>
     <p class="note">Only the SplmtryData envelope is PurposePay-specific. The rest is standard ISO 20022, so legacy core banking systems keep working.</p>`;
 }
@@ -622,11 +622,11 @@ function renderLedger() {
   const t = S.tiers;
   $('p-led').innerHTML = `
     <div class="tiers">
-      <div class="tier"><small>Tier 1 · RBI issuer</small><b>${inr0(t.tier1_issued_inr)}</b><span>e₹ issued</span></div>
-      <div class="tier"><small>Tier 2 · Bank nodes</small><b>${inr0(t.tier2_spent_inr)}</b><span>spent at merchants · ${inr0(t.tier2_outstanding_inr)} in wallets</span></div>
+      <div class="tier"><small>Tier 1 \u00b7 RBI issuer</small><b>${inr0(t.tier1_issued_inr)}</b><span>e\u20b9 issued</span></div>
+      <div class="tier"><small>Tier 2 \u00b7 Bank nodes</small><b>${inr0(t.tier2_spent_inr)}</b><span>spent at merchants \u00b7 ${inr0(t.tier2_outstanding_inr)} in wallets</span></div>
     </div>
     <div class="h4"><span>Hash-chained blocks</span><span class="tag">height ${S.ledger_height}</span></div>
-    ${S.ledger.map(b => `<div class="blk"><div class="hh">#${b.height}</div><div><span class="kd ${b.kind}">${b.kind}</span>${esc(b.summary)}<div class="hs">${b.time} · ${b.tier} · ${b.hash.slice(0, 16)}… ← ${b.prev.slice(0, 8)}…</div></div></div>`).join('')}`;
+    ${S.ledger.map(b => `<div class="blk"><div class="hh">#${b.height}</div><div><span class="kd ${b.kind}">${b.kind}</span>${esc(b.summary)}<div class="hs">${b.time} \u00b7 ${b.tier} \u00b7 ${b.hash.slice(0, 16)}\u2026 \u2190 ${b.prev.slice(0, 8)}\u2026</div></div></div>`).join('')}`;
 }
 
 /* ---------- rules ---------- */
@@ -647,17 +647,17 @@ function renderRules() {
 async function doTransfer() {
   if (busy) return; busy = true; $('btnSend').disabled = true;
   const body = {currency: cur, amount: parseFloat($('inAmount').value), edu_pct: edu, health_pct: health, gen_pct: gen};
-  resetPipe(); setPipe(0, 'active', 'Building pacs.008…');
-  log(`<span class="lg-c">[CORRIDOR]</span> Initiating ${body.amount} ${cur} via ${esc(S.fx_rates[cur].bank)}…`);
+  resetPipe(); setPipe(0, 'active', 'Building pacs.008\u2026');
+  log(`<span class="lg-c">[CORRIDOR]</span> Initiating ${body.amount} ${cur} via ${esc(S.fx_rates[cur].bank)}\u2026`);
   const r = await post('/api/transfer', body);
   const d = r.data;
   if (r.ok) {
     const ms = Object.fromEntries(d.steps.map(s => [s.id, s.ms]));
     const subs = {
-      initiate: `pacs.008 · ${ms.initiate} ms`,
+      initiate: `pacs.008 \u00b7 ${ms.initiate} ms`,
       comply: 'ZKP + sanctions clear',
-      fx: `₹${d.fx.rate.toFixed(2)}/${cur} locked ${d.fx.locked_for_s} s`,
-      settle: `Minted ${inr0(d.gross_inr)} · ${ms.settle} ms`
+      fx: `\u20b9${d.fx.rate.toFixed(2)}/${cur} locked ${d.fx.locked_for_s} s`,
+      settle: `Minted ${inr0(d.gross_inr)} \u00b7 ${ms.settle} ms`
     };
     ['initiate', 'comply', 'fx', 'settle'].forEach((id, i) => { if (i) setPipe(i, 'idle'); });
     for (let i = 0; i < 4; i++) {
@@ -668,13 +668,13 @@ async function doTransfer() {
     lastIso = {pacs008: d.iso20022.pacs008, pacs002: d.iso20022.pacs002, e2e: d.e2e_id, rejected: false,
                security: d.security, zkp: d.compliance.zkp};
     log(`<span class="lg-b">[SETTLED]</span> ${esc(d.message)}`);
-    log(`<span class="lg-p">[COMPLIANCE]</span> Cap proof ${esc(d.compliance.zkp.public_output)} · sanctions ${esc(d.compliance.sanctions.result)} · HSM-signed ${esc(d.security.signature.slice(0, 12))}…`);
+    log(`<span class="lg-p">[COMPLIANCE]</span> Cap proof ${esc(d.compliance.zkp.public_output)} \u00b7 sanctions ${esc(d.compliance.sanctions.result)} \u00b7 HSM-signed ${esc(d.security.signature.slice(0, 12))}\u2026`);
     log(`<span class="lg-p">[ENGINE]</span> In-memory settlement took ${d.engine_ms} ms (simulation). Production target: under 3 s.`);
     renderCompare(d.comparison);
   } else {
     const idx = Math.max(0, STEPS.findIndex(s => s.id === d.failed_step));
     for (let i = 0; i < idx; i++) setPipe(i, 'done', i === 0 ? 'pacs.008 built' : STEPS[i].s);
-    setPipe(idx, 'error', d.failed_step === 'comply' ? 'Cap exceeded · proof failed' : (d.detail || 'Rejected').slice(0, 46));
+    setPipe(idx, 'error', d.failed_step === 'comply' ? 'Cap exceeded \u00b7 proof failed' : (d.detail || 'Rejected').slice(0, 46));
     if (d.iso20022) lastIso = {pacs008: d.iso20022.pacs008, pacs002: d.iso20022.pacs002, e2e: d.e2e_id, rejected: true, zkp: d.compliance && d.compliance.zkp};
     log(`<span class="lg-r">[REJECTED]</span> ${esc(d.detail || 'Transfer failed')}`);
   }
@@ -687,22 +687,22 @@ async function doPay() {
   if (busy) return; busy = true; $('btnPay').disabled = true;
   const body = {merchant_id: posMerchant, category: posBucket, amount_inr: parseFloat($('posAmt').value)};
   const m = S.merchants.find(x => x.id === posMerchant);
-  const res = $('posResult'); res.className = 'result'; res.innerHTML = `Scanning ${esc(m.name)} · reading MCC ${m.mcc}…`;
-  $('qrbox').classList.add('scanning'); setPipe(4, 'active', `Checking MCC ${m.mcc}…`);
-  log(`<span class="lg-c">[POS]</span> ₹${body.amount_inr} at ${esc(m.name)} (MCC ${m.mcc}, ${esc(m.terminal)}) from ${posBucket} e₹…`);
+  const res = $('posResult'); res.className = 'result'; res.innerHTML = `Scanning ${esc(m.name)} \u00b7 reading MCC ${m.mcc}\u2026`;
+  $('qrbox').classList.add('scanning'); setPipe(4, 'active', `Checking MCC ${m.mcc}\u2026`);
+  log(`<span class="lg-c">[POS]</span> \u20b9${body.amount_inr} at ${esc(m.name)} (MCC ${m.mcc}, ${esc(m.terminal)}) from ${posBucket} e\u20b9\u2026`);
   await sleep(900);
   const r = await post('/api/pay', body);
   $('qrbox').classList.remove('scanning');
   const d = r.data, det = d.details || {};
   if (r.ok) {
     res.className = 'result ok';
-    res.innerHTML = `<b>✓ Approved · MCC ${det.mcc}</b>${esc(d.message)}`;
+    res.innerHTML = `<b>\u2713 Approved \u00b7 MCC ${det.mcc}</b>${esc(d.message)}`;
     setPipe(4, 'done', `MCC ${det.mcc} approved`);
     log(`<span class="lg-g">[APPROVED]</span> ${esc(d.message)}`);
   } else {
     res.className = 'result bad';
     const reason = {PURPOSE_BOUND_MISMATCH:'Purpose-bound block', TERMINAL_NOT_DESIGNATED:'Terminal not designated', PROHIBITED_MCC:'Prohibited category', INSUFFICIENT_FUNDS:'Insufficient funds'}[det.reason] || 'Blocked';
-    res.innerHTML = `<b>⛔ Blocked · ${esc(reason)}</b>${esc(d.detail || 'Payment rejected')}`;
+    res.innerHTML = `<b>\u26d4 Blocked \u00b7 ${esc(reason)}</b>${esc(d.detail || 'Payment rejected')}`;
     setPipe(4, 'error', reason);
     log(`<span class="lg-r">[BLOCKED]</span> ${esc(d.detail || 'Payment rejected')}`);
   }
@@ -774,7 +774,7 @@ async function runDemo() {
   const id = ++demoId, ok = () => id === demoId;
   const cards = document.querySelectorAll('main.grid > section.card');
   const [cSender, cRecv, cInsight] = cards;
-  $('btnDemo').textContent = '■ Stop demo'; $('btnDemo').dataset.run = '1';
+  $('btnDemo').textContent = '\u25a0 Stop demo'; $('btnDemo').dataset.run = '1';
   if (canSpeak) speechSynthesis.cancel();
 
   const talk = async (label, text) => { if (!ok()) return; caption(label, text); await say(text, id); };
@@ -793,41 +793,41 @@ async function runDemo() {
   // 1 Sender + transfer
   if (!ok()) return;
   focusOn(cSender);
-  await talk('1 / 6 · Send', 'Meet an expat in Dubai. He sends one thousand US dollars home, and splits it, forty percent for education, forty percent for healthcare, and twenty percent for general use. This split is set before the money is even minted.');
+  await talk('1 / 6 \u00b7 Send', 'Meet an expat in Dubai. He sends one thousand US dollars home, and splits it, forty percent for education, forty percent for healthcare, and twenty percent for general use. This split is set before the money is even minted.');
   if (!ok()) return;
   const tx = doTransfer();
   focusOn($('pipe'), 'start');
-  await talk('1 / 6 · Settle', 'Now watch the lifecycle. The F X oracle locks the rate for thirty seconds. A zero knowledge proof confirms the annual cap, without revealing the sender\'s balance or history. Sanctions screening passes. The Reserve Bank issues the e-rupee, and the commercial bank distributes it into three purpose buckets. All of it settles in seconds.');
+  await talk('1 / 6 \u00b7 Settle', 'Now watch the lifecycle. The F X oracle locks the rate for thirty seconds. A zero knowledge proof confirms the annual cap, without revealing the sender\'s balance or history. Sanctions screening passes. The Reserve Bank issues the e-rupee, and the commercial bank distributes it into three purpose buckets. All of it settles in seconds.');
   await tx; if (!ok()) return;
   focusOn(cInsight);
-  await talk('1 / 6 · Cost', 'The comparison panel shows the modelled cost and delay of the traditional SWIFT route against PurposePay. These numbers are simulated for the demo, but the gap is the point.');
+  await talk('1 / 6 \u00b7 Cost', 'The comparison panel shows the modelled cost and delay of the traditional SWIFT route against PurposePay. These numbers are simulated for the demo, but the gap is the point.');
 
   // 2 valid purchase
   if (!ok()) return;
   focusOn(cRecv);
-  await talk('2 / 6 · Allowed', 'Now the receiver, back in India, holds three purpose-bound buckets. She scans the QR code at Apollo Hospital. The merchant category code, eighty sixty two, travels inside the QR, and the contract checks it against the healthcare bucket. It matches, so the payment is approved.');
+  await talk('2 / 6 \u00b7 Allowed', 'Now the receiver, back in India, holds three purpose-bound buckets. She scans the QR code at Apollo Hospital. The merchant category code, eighty sixty two, travels inside the QR, and the contract checks it against the healthcare bucket. It matches, so the payment is approved.');
   await pay('MERCHANT_APOLLO_HOSPITAL', 'HEALTHCARE', 5000); if (!ok()) return;
-  await talk('2 / 6 · Allowed', 'Approved. The money reached a hospital, exactly as the sender intended.');
+  await talk('2 / 6 \u00b7 Allowed', 'Approved. The money reached a hospital, exactly as the sender intended.');
 
   // 3 wrong category
-  await talk('3 / 6 · Blocked', 'Next, a liquor store. Its category code is fifty nine twenty one. She tries to pay with healthcare tokens.');
+  await talk('3 / 6 \u00b7 Blocked', 'Next, a liquor store. Its category code is fifty nine twenty one. She tries to pay with healthcare tokens.');
   await pay('MERCHANT_LIQUOR_STORE', 'HEALTHCARE', 1000); if (!ok()) return;
-  await talk('3 / 6 · Blocked', 'Blocked. Healthcare tokens simply cannot be spent outside healthcare merchants. No manual check was needed.');
+  await talk('3 / 6 \u00b7 Blocked', 'Blocked. Healthcare tokens simply cannot be spent outside healthcare merchants. No manual check was needed.');
 
   // 4 terminal class
-  await talk('4 / 6 · Blocked', 'A subtler case. The hospital cafeteria shares the hospital\'s parent category, eighty sixty two. But its terminal is not a designated billing terminal.');
+  await talk('4 / 6 \u00b7 Blocked', 'A subtler case. The hospital cafeteria shares the hospital\'s parent category, eighty sixty two. But its terminal is not a designated billing terminal.');
   await pay('MERCHANT_HOSPITAL_CAFETERIA', 'HEALTHCARE'); if (!ok()) return;
-  await talk('4 / 6 · Blocked', 'Blocked again. That is why we enforce the terminal class as well as the category code. A sandwich is not a medical bill.');
+  await talk('4 / 6 \u00b7 Blocked', 'Blocked again. That is why we enforce the terminal class as well as the category code. A sandwich is not a medical bill.');
 
   // 5 general bucket prohibited
-  await talk('5 / 6 · Policy', 'Even the general bucket has limits. Prohibited categories, such as liquor stores, are refused by policy, so the flexible money is still safe.');
+  await talk('5 / 6 \u00b7 Policy', 'Even the general bucket has limits. Prohibited categories, such as liquor stores, are refused by policy, so the flexible money is still safe.');
   await pay('MERCHANT_LIQUOR_STORE', 'GENERAL'); if (!ok()) return;
-  await talk('5 / 6 · Policy', 'Refused, even from the general bucket.');
+  await talk('5 / 6 \u00b7 Policy', 'Refused, even from the general bucket.');
 
   // 6 education
-  await talk('6 / 6 · Allowed', 'Finally, education. D P S School, category eighty two eleven, accepts education tokens.');
+  await talk('6 / 6 \u00b7 Allowed', 'Finally, education. D P S School, category eighty two eleven, accepts education tokens.');
   await pay('MERCHANT_DPS_SCHOOL', 'EDUCATION', 8000); if (!ok()) return;
-  await talk('6 / 6 · Allowed', 'Approved. School fees paid straight from the education bucket.');
+  await talk('6 / 6 \u00b7 Allowed', 'Approved. School fees paid straight from the education bucket.');
 
   // Audit trail
   if (!ok()) return;
@@ -847,7 +847,7 @@ async function runDemo() {
 }
 function demoRunning() { return $('btnDemo').dataset.run === '1'; }
 function endDemo(stopped) {
-  $('btnDemo').textContent = '▶ Run guided demo'; delete $('btnDemo').dataset.run;
+  $('btnDemo').textContent = '\u25b6 Run guided demo'; delete $('btnDemo').dataset.run;
   $('narr').classList.remove('talk');
   if (stopped) $('narr').classList.remove('on'); else setTimeout(() => { if (!demoRunning()) $('narr').classList.remove('on'); }, 6000);
 }
@@ -863,10 +863,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   $('btnReset').onclick = () => doReset();
   $('btnDemo').onclick = runDemo;
   $('btnVoice').onclick = () => {
-    voiceOn = !voiceOn; $('btnVoice').textContent = voiceOn ? '🔊 Voice on' : '🔇 Voice off';
+    voiceOn = !voiceOn; $('btnVoice').textContent = voiceOn ? '\ud83d\udd0a Voice on' : '\ud83d\udd07 Voice off';
     if (!voiceOn && canSpeak) speechSynthesis.cancel();
   };
-  if (!canSpeak) { $('btnVoice').textContent = '🔇 No voice support'; $('btnVoice').disabled = true; voiceOn = false; }
+  if (!canSpeak) { $('btnVoice').textContent = '\ud83d\udd07 No voice support'; $('btnVoice').disabled = true; voiceOn = false; }
   window.addEventListener('beforeunload', () => { if (canSpeak) speechSynthesis.cancel(); });
   $('btnClear').onclick = () => { $('log').innerHTML = ''; };
   $('tabs').querySelectorAll('button').forEach(b => b.onclick = () => {
@@ -875,9 +875,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   });
   syncSplit();
   await loadState();
-  log('Ready. Pick a corridor, set the purpose split and mint e₹, or press “Run guided demo”.');
+  log('Ready. Pick a corridor, set the purpose split and mint e\u20b9, or press \u201cRun guided demo\u201d.');
 });
 </script>
 </body>
 </html>
-
