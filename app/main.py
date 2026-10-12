@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List, Union
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, JSONResponse
@@ -9,6 +10,8 @@ try:  # run as a package: uvicorn app.main:app
     from .chaincode import drunix_chain
 except ImportError:  # run as a script from inside app/
     from chaincode import drunix_chain
+
+BUILD = "2026-10-12-mcc-requests"
 
 app = FastAPI(title="PurposePay - Programmable Cross-Border CBDC Remittance")
 
@@ -32,6 +35,25 @@ class PayRequest(BaseModel):
     amount_inr: float
 
 
+class DocIn(BaseModel):
+    type: str
+    name: str = ""
+    size: int = 0
+
+
+class MccRequest(BaseModel):
+    bucket: str
+    mcc: Union[int, str]
+    mcc_label: str = ""
+    reason: str = ""
+    documents: List[DocIn] = []
+
+
+class MccDecision(BaseModel):
+    action: str  # "approve" or "reject"
+    note: str = ""
+
+
 def _error(message: str, status: int = 400, **extra) -> JSONResponse:
     # "detail" keeps the shape FastAPI's HTTPException uses, so older clients still work.
     return JSONResponse(status_code=status, content={"detail": message, **extra})
@@ -44,7 +66,7 @@ def read_root():
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "service": "PurposePay", "mode": "simulation"}
+    return {"status": "ok", "service": "PurposePay", "mode": "simulation", "build": BUILD}
 
 
 @app.get("/api/state")
@@ -77,6 +99,31 @@ def pay_merchant(req: PayRequest):
     if not success:
         return _error(msg, details=details)
     return {"status": "SUCCESS", "message": msg, "details": details}
+
+
+@app.get("/api/mcc-requests")
+def list_mcc_requests():
+    st = drunix_chain.get_state()
+    return {"requests": st["mcc_requests"], "required_docs": st["required_docs"], "catalog": st["mcc_catalog"]}
+
+
+@app.post("/api/mcc-request")
+def submit_mcc_request(req: MccRequest):
+    """Receiver asks the sender to allow a new MCC in a purpose bucket (with documents)."""
+    docs = [d.dict() if hasattr(d, "dict") else d for d in req.documents]
+    ok, msg, data = drunix_chain.submit_mcc_request(req.bucket, req.mcc, req.mcc_label, req.reason, docs)
+    if not ok:
+        return _error(msg, **data)
+    return {"status": "PENDING", "message": msg, "request": data}
+
+
+@app.post("/api/mcc-request/{req_id}/decision")
+def decide_mcc_request(req_id: str, dec: MccDecision):
+    """Sender approves or rejects; approval adds the MCC to the bucket's allowed list."""
+    ok, msg, data = drunix_chain.decide_mcc_request(req_id, dec.action, dec.note)
+    if not ok:
+        return _error(msg, **data)
+    return {"status": data["status"], "message": msg, "request": data}
 
 
 @app.post("/api/reset")
