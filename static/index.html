@@ -226,6 +226,74 @@ pre.xml .t{color:#8FB3FF}pre.xml .v{color:var(--saffron)}pre.xml .c{color:var(--
 .tag.bad{background:rgba(255,122,112,.15);color:#FF9A90}
 .empty{padding:26px 14px;text-align:center;color:var(--dim);font-size:13.5px;border:1px dashed var(--line2);border-radius:14px}
 
+/* MCC request workflow */
+.req{margin-top:20px;padding-top:18px;border-top:1px solid var(--line2)}
+.req h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.req .sub2{font-size:12.5px;color:var(--dim);margin-bottom:6px;line-height:1.4}
+.req input[type=text],.req input:not([type]),.req textarea,.inbox input.note{width:100%;padding:11px 13px;border-radius:12px;background:rgba(10,19,48,.7);border:1px solid var(--line2);color:var(--ink);font-family:var(--mono);font-size:14px}
+.req textarea{font-family:var(--sans);resize:vertical;min-height:58px;line-height:1.4}
+.req input:focus,.req textarea:focus,.inbox input.note:focus{outline:none;border-color:var(--gen)}
+.two{display:grid;grid-template-columns:110px 1fr;gap:10px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.docrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:12px;background:rgba(10,19,48,.55);border:1px dashed var(--line);margin-bottom:7px;font-size:13px}
+.docrow.has{border-style:solid;border-color:rgba(60,180,138,.6);background:rgba(60,180,138,.08)}
+.docrow .dl{color:var(--mute);min-width:0}
+.docrow .dl b{display:block;color:var(--ink);font-size:13px}
+.docrow .dl em{font-style:normal;font-family:var(--mono);font-size:11.5px;color:#7FD8B4;word-break:break-all}
+.docrow label.pick{flex:none;cursor:pointer;padding:6px 11px;border-radius:9px;background:rgba(255,255,255,.07);border:1px solid var(--line2);font-weight:700;font-size:12.5px;color:var(--ink)}
+.docrow label.pick:hover{border-color:var(--line)}
+.docrow input[type=file]{display:none}
+.reqbtns{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.reqbtns .btn{padding:10px 14px;font-size:13px}
+.reqbtns .cyan{flex:1;min-width:170px}
+#reqResult{margin-top:10px}
+.myreq{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:8px 11px;border-radius:11px;background:rgba(10,19,48,.55);border:1px solid var(--line2);margin-top:7px;font-size:12.5px;color:var(--mute)}
+.myreq b{color:var(--ink);font-family:var(--mono);font-weight:500}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.PENDING{background:rgba(242,193,74,.18);color:var(--amber)}
+.pill.APPROVED{background:rgba(60,180,138,.2);color:#7FD8B4}
+.pill.REJECTED{background:rgba(255,122,112,.18);color:#FF9A90}
+.pill.EDUCATION{background:rgba(122,167,255,.2);color:#9DBBFF}
+.pill.HEALTHCARE{background:rgba(242,160,74,.2);color:var(--saffron)}
+.askmcp,.askmcc{display:inline-block;margin-top:9px;font-family:var(--sans);font-size:12.5px;color:var(--ink);border-color:var(--saffron)}
+.inbox{margin-top:18px;padding-top:16px;border-top:1px solid var(--line2)}
+.rq{padding:13px;border-radius:15px;background:rgba(10,19,48,.55);border:1px solid rgba(242,193,74,.55);margin-bottom:10px;animation:rqin .35s ease}
+@keyframes rqin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rq.done{border-color:var(--line2);padding:9px 12px;animation:none}
+.rqh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rqh .code{font-family:var(--mono);font-size:17px;font-weight:500}
+.rqh span.nm{font-size:13.5px;font-weight:700}
+.rqs{font-size:11.5px;color:var(--dim);font-family:var(--mono);margin:3px 0 7px}
+.rq .why{font-size:13px;color:var(--mute);line-height:1.4;margin-bottom:8px;font-style:italic}
+.rq .dc2{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:4px 0;color:var(--mute);border-top:1px solid var(--line2)}
+.rq .dc2 code{font-family:var(--mono);color:#7FD8B4;font-size:11.5px}
+.rq ul.chk{list-style:none;margin:8px 0;display:grid;gap:3px;font-size:12px;color:var(--mute)}
+.rq ul.chk li b{display:inline-block;width:16px;color:#7FD8B4}
+.rq ul.chk li.wait b{color:var(--amber)}
+.rq ul.chk li em{font-style:normal;color:var(--dim)}
+.rqb{display:flex;gap:8px;margin-top:9px}
+.rqb .btn{flex:1;padding:10px;font-size:13px}
+.btn.rej{background:transparent;border:1px solid rgba(255,122,112,.6);color:#FF9A90}
+.inbox input.note{margin-top:4px;font-family:var(--sans);font-size:13px;padding:9px 12px}
+.newmcc{color:#7FD8B4}
+.tag.new{background:rgba(60,180,138,.2);color:#7FD8B4;border:1px solid rgba(60,180,138,.5)}
+.kd.REQUEST{background:rgba(199,166,255,.2);color:#C7A6FF}
+.kd.POLICY{background:rgba(60,180,138,.2);color:#7FD8B4}
+/* go-live tab */
+.gl-note{padding:10px 12px;border-radius:12px;background:rgba(242,193,74,.1);border:1px solid rgba(242,193,74,.4);font-size:12.5px;color:var(--mute);line-height:1.45;margin-bottom:14px}
+.gl h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--saffron);margin:16px 0 8px}
+.gl .it{padding:10px 12px;border-radius:12px;background:rgba(10,19,48,.55);border:1px solid var(--line2);margin-bottom:7px}
+.gl .it .tt{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;font-size:13.5px;font-weight:700}
+.gl .it p{font-size:12.5px;color:var(--mute);line-height:1.45;margin-top:4px}
+.gl .it p.fx{color:#7FD8B4}
+.gl .own{flex:none;font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.own.reg{background:rgba(255,122,112,.16);color:#FF9A90}
+.own.bank{background:rgba(122,167,255,.18);color:#9DBBFF}
+.own.int{background:rgba(60,180,138,.18);color:#7FD8B4}
+.gl .ph{display:grid;grid-template-columns:1fr;gap:7px}
+.gl .ph .it b.pn2{color:var(--saffron)}
+.tabs button{padding:9px 4px}
+
 /* logs */
 .logs{margin-top:20px;padding:0;overflow:hidden}
 .logs .lh{display:flex;justify-content:space-between;align-items:center;padding:11px 18px;border-bottom:1px solid var(--line2);background:rgba(10,19,48,.6)}
@@ -301,6 +369,10 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
     </div>
 
     <button class="btn primary wide" id="btnSend">Mint &amp; transfer e&#8377;</button>
+    <div class="inbox" id="inboxWrap">
+      <div class="h4"><span>Approval inbox &middot; sender</span><span class="tag" id="inboxCount">0 pending</span></div>
+      <div id="inbox"></div>
+    </div>
   </section>
 
   <!-- 2. RECEIVER -->
@@ -332,6 +404,23 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
         </div>
       </div>
     </div>
+    <div class="req" id="reqBox">
+      <h3>Need a new category? Ask the sender</h3>
+      <p class="sub2">The receiver proposes a new MCC with documents. It only unlocks after the sender approves.</p>
+      <label class="fl" style="margin-top:8px">Add it to bucket</label>
+      <div class="seg" id="reqBucket"></div>
+      <div class="two">
+        <div><label class="fl" for="reqMcc">MCC code</label><input id="reqMcc" type="text" list="mccList" inputmode="numeric" maxlength="4" placeholder="8071" autocomplete="off"><datalist id="mccList"></datalist></div>
+        <div><label class="fl" for="reqLabel">Category name</label><input id="reqLabel" type="text" maxlength="60" placeholder="Medical laboratories" autocomplete="off"></div>
+      </div>
+      <label class="fl" for="reqReason">Why does the receiver need it?</label>
+      <textarea id="reqReason" rows="2" maxlength="280" placeholder="e.g. Treatment needs regular blood tests at an accredited lab."></textarea>
+      <label class="fl">Required documents</label>
+      <div id="reqDocs"></div>
+      <div class="reqbtns"><button class="btn ghost" id="btnSample" type="button">Attach sample documents</button><button class="btn cyan" id="btnReq" type="button">Send request to sender</button></div>
+      <div class="result" id="reqResult">Only a hash of each document goes on the ledger. The files stay off-chain.</div>
+      <div id="myReqs"></div>
+    </div>
   </section>
 
   <!-- 3. INSIGHT -->
@@ -342,11 +431,13 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
       <button data-t="iso">ISO 20022</button>
       <button data-t="led">Ledger</button>
       <button data-t="rul">Rules</button>
+      <button data-t="gol">Go-live</button>
     </div>
     <div class="pane on" id="p-cmp"></div>
     <div class="pane" id="p-iso"></div>
     <div class="pane" id="p-led"></div>
     <div class="pane" id="p-rul"></div>
+    <div class="pane gl" id="p-gol"></div>
   </section>
 </main>
 
@@ -440,6 +531,7 @@ async function loadState() {
 function renderAll() {
   if (!S) return;
   renderSender(); renderReceiver(); renderPOS(); renderIso(); renderLedger(); renderRules();
+  renderReqForm(); renderInbox(); renderMyReqs(); renderGoLive();
   scheduleCompare(0);
 }
 
@@ -504,7 +596,9 @@ function renderReceiver() {
   const rules = S.rules;
   $('buckets').innerHTML = BUCKETS.map(b => {
     const rule = rules[b.key];
-    const hint = rule.any_mcc ? 'Any MCC except prohibited' : 'MCC ' + rule.mccs.slice(0, 4).map(m => m.mcc).join(' \u00b7 ');
+    const added = rule.any_mcc ? [] : rule.mccs.filter(m => m.added).map(m => m.mcc);
+    const base = rule.any_mcc ? [] : rule.mccs.filter(m => !m.added).slice(0, 4).map(m => m.mcc);
+    const hint = rule.any_mcc ? 'Any MCC except prohibited' : 'MCC ' + base.join(' \u00b7 ') + (added.length ? ' \u00b7 <b class="newmcc">+' + added.join(' +') + '</b>' : '');
     const pct = total > 0 ? w[b.stateKey] / total : 0;
     const ticks = Array.from({length: 10}, (_, i) => `<s style="${i < Math.round(pct * 10) ? 'background:' + b.hex : ''}"></s>`).join('');
     const grew = prevWallet && w[b.stateKey] > prevWallet[b.stateKey];
@@ -634,7 +728,7 @@ function renderRules() {
   const rules = S.rules;
   $('p-rul').innerHTML = BUCKETS.map(b => {
     const r = rules[b.key];
-    const allowed = r.any_mcc ? '<span class="tag">any MCC</span>' : r.mccs.map(m => `<span class="tag">${m.mcc} ${esc(m.name)}</span>`).join('');
+    const allowed = r.any_mcc ? '<span class="tag">any MCC</span>' : r.mccs.map(m => `<span class="tag${m.added ? ' new' : ''}">${m.mcc} ${esc(m.name)}${m.added ? ' \u00b7 NEW' : ''}</span>`).join('');
     const prohibited = r.prohibited.map(m => `<span class="tag bad">${m.mcc} ${esc(m.name)}</span>`).join('');
     const terms = r.terminals.length ? `<div class="h4" style="margin:9px 0 6px"><span>Designated terminals</span></div><div class="tags">${r.terminals.map(x => `<span class="tag">${x}</span>`).join('')}</div>` : '';
     return `<div class="rule"><h5><i style="background:${b.hex}"></i>${b.label} bucket</h5>
@@ -705,6 +799,10 @@ async function doPay() {
     res.innerHTML = `<b>\u26d4 Blocked \u00b7 ${esc(reason)}</b>${esc(d.detail || 'Payment rejected')}`;
     setPipe(4, 'error', reason);
     log(`<span class="lg-r">[BLOCKED]</span> ${esc(d.detail || 'Payment rejected')}`);
+    if (det.reason === 'PURPOSE_BOUND_MISMATCH' && det.bucket !== 'GENERAL') {
+      res.insertAdjacentHTML('beforeend', `<br><button class="chip askmcc" id="btnAsk">Ask the sender to add MCC ${det.mcc} to ${esc(String(det.bucket).toLowerCase())}</button>`);
+      $('btnAsk').onclick = () => prefillReq(det.bucket, det.mcc, m.mcc_label.replace(' (parent MCC)', ''));
+    }
   }
   await loadState();
   busy = false; $('btnPay').disabled = false;
@@ -717,6 +815,166 @@ async function doReset(quiet) {
   S = r.data.state; lastIso = null; prevWallet = null; resetPipe(); resetResult();
   $('log').innerHTML = ''; log('Demo state reset. Balances, wallet, cap usage and ledger are clean.');
   renderAll();
+}
+
+
+/* ---------- MCC request workflow ---------- */
+let reqBucket = 'HEALTHCARE', reqFiles = {}, catalogDone = false;
+const SAMPLE_FILES = {REGISTRATION:'provider_registration.pdf', ESTIMATE:'treatment_estimate.pdf', RECOGNITION:'recognition_certificate.pdf', FEE_INVOICE:'fee_structure.pdf'};
+function renderReqForm() {
+  $('reqBucket').innerHTML = ['EDUCATION', 'HEALTHCARE'].map(b =>
+    `<button type="button" data-b="${b}" class="${b === reqBucket ? 'on' : ''}">${b === 'EDUCATION' ? 'Education' : 'Healthcare'}</button>`).join('');
+  $('reqBucket').querySelectorAll('button').forEach(b => b.onclick = () => { reqBucket = b.dataset.b; reqFiles = {}; renderReqForm(); });
+  if (!catalogDone && S.mcc_catalog) {
+    $('mccList').innerHTML = S.mcc_catalog.map(c => `<option value="${c.mcc}">${esc(c.label)}</option>`).join('');
+    catalogDone = true;
+  }
+  const docs = (S.required_docs || {})[reqBucket] || [];
+  $('reqDocs').innerHTML = docs.map(d => {
+    const f = reqFiles[d.type];
+    return `<div class="docrow ${f ? 'has' : ''}"><span class="dl"><b>${esc(d.label)}</b>${f ? `<em>${esc(f.name)}</em>` : 'No file chosen'}</span>
+      <label class="pick">${f ? 'Change' : 'Choose file'}<input type="file" data-t="${d.type}"></label></div>`;
+  }).join('');
+  $('reqDocs').querySelectorAll('input[type=file]').forEach(inp => inp.onchange = () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    reqFiles[inp.dataset.t] = {name: f.name, size: f.size}; renderReqForm();
+  });
+}
+function sampleDocs() {
+  reqFiles = {};
+  ((S.required_docs || {})[reqBucket] || []).forEach(d => { reqFiles[d.type] = {name: SAMPLE_FILES[d.type] || 'document.pdf', size: 184320}; });
+  renderReqForm();
+}
+function prefillReq(bucket, mcc, label, reason) {
+  if (bucket === 'EDUCATION' || bucket === 'HEALTHCARE') { if (bucket !== reqBucket) reqFiles = {}; reqBucket = bucket; }
+  $('reqMcc').value = mcc || ''; $('reqLabel').value = label || '';
+  if (reason !== undefined) $('reqReason').value = reason;
+  renderReqForm(); $('reqBox').scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+function onMccInput() {
+  const v = $('reqMcc').value.replace(/\D/g, '').slice(0, 4); $('reqMcc').value = v;
+  const hit = (S.mcc_catalog || []).find(c => String(c.mcc) === v);
+  if (hit) {
+    $('reqLabel').value = hit.label;
+    if (hit.bucket !== reqBucket) { reqBucket = hit.bucket; reqFiles = {}; renderReqForm(); }
+  }
+}
+async function submitReq() {
+  const res = $('reqResult'); $('btnReq').disabled = true;
+  const docs = Object.entries(reqFiles).map(([type, f]) => ({type, name: f.name, size: f.size}));
+  const body = {bucket: reqBucket, mcc: $('reqMcc').value.trim(), mcc_label: $('reqLabel').value.trim(), reason: $('reqReason').value.trim(), documents: docs};
+  log(`<span class="lg-p">[REQUEST]</span> Receiver asks the sender to add MCC ${esc(body.mcc || '?')} to the ${reqBucket.toLowerCase()} bucket\u2026`);
+  const r = await post('/api/mcc-request', body);
+  const d = r.data;
+  if (r.ok) {
+    const q = d.request;
+    res.className = 'result ok';
+    res.innerHTML = `<b>\u2713 Request sent \u00b7 ${esc(q.id)}</b>${q.documents.length} document hashes anchored at block #${q.request_block}. Waiting for the sender to approve.`;
+    log(`<span class="lg-g">[REQUEST]</span> ${esc(d.message)} Block #${q.request_block}.`);
+    $('reqMcc').value = ''; $('reqLabel').value = ''; $('reqReason').value = ''; reqFiles = {};
+  } else {
+    res.className = 'result bad';
+    res.innerHTML = `<b>\u26d4 Request not sent</b>${esc(d.detail || 'Request failed')}`;
+    log(`<span class="lg-r">[REQUEST]</span> ${esc(d.detail || 'Request failed')}`);
+  }
+  $('btnReq').disabled = false;
+  await loadState();
+  return r.ok;
+}
+async function decideReq(id, action, note) {
+  log(`<span class="lg-p">[SENDER]</span> ${action === 'approve' ? 'Approving' : 'Rejecting'} ${esc(id)}\u2026`);
+  const r = await post('/api/mcc-request/' + encodeURIComponent(id) + '/decision', {action, note: note || ''});
+  if (r.ok) {
+    log(`<span class="${action === 'approve' ? 'lg-g' : 'lg-r'}">[${action === 'approve' ? 'APPROVED' : 'REJECTED'}]</span> ${esc(r.data.message)}`);
+    $('reqResult').className = 'result ' + (action === 'approve' ? 'ok' : 'bad');
+    $('reqResult').innerHTML = `<b>${action === 'approve' ? '\u2713 Sender approved' : '\u26d4 Sender rejected'} \u00b7 ${esc(id)}</b>${esc(r.data.message)}`;
+  } else log(`<span class="lg-r">[ERROR]</span> ${esc(r.data.detail || 'Decision failed')}`);
+  await loadState();
+  if (r.ok && action === 'approve') {
+    const b = $('bk-' + r.data.request.bucket); if (b) { b.classList.add('flash'); setTimeout(() => b.classList.remove('flash'), 1400); }
+  }
+}
+const CHK = c => `<li class="${c.ok === null ? 'wait' : ''}"><b>${c.ok === null ? '\u25cb' : '\u2713'}</b>${esc(c.name)} <em>\u00b7 ${esc(c.detail)}</em></li>`;
+function renderInbox() {
+  const all = S.mcc_requests || [], pend = all.filter(q => q.status === 'PENDING'), done = all.filter(q => q.status !== 'PENDING').slice(0, 3);
+  $('inboxCount').textContent = pend.length + ' pending';
+  if (!all.length) { $('inbox').innerHTML = '<div class="empty">No requests yet. When the receiver asks for a new category, it lands here for your approval.</div>'; return; }
+  const keep = {}; document.querySelectorAll('#inbox input.note').forEach(i => keep[i.dataset.id] = i.value);
+  $('inbox').innerHTML = pend.map(q => `
+    <div class="rq" data-id="${q.id}">
+      <div class="rqh"><span class="code">MCC ${q.mcc}</span><span class="nm">${esc(q.mcc_label)}</span><span class="pill ${q.bucket}">${esc(q.bucket_label)}</span></div>
+      <div class="rqs">${q.id} \u00b7 ${q.created} UTC \u00b7 ${esc(q.requested_by)}</div>
+      <p class="why">\u201c${esc(q.reason)}\u201d</p>
+      ${q.documents.map(d => `<div class="dc2"><span>${esc(d.label)} \u00b7 ${esc(d.name)}</span><code>#${d.digest}</code></div>`).join('')}
+      <ul class="chk">${q.checks.map(CHK).join('')}</ul>
+      <input class="note" data-id="${q.id}" placeholder="Optional note to the receiver" maxlength="140" value="${esc(keep[q.id] || '')}">
+      <div class="rqb"><button class="btn rej" data-act="reject" data-id="${q.id}">Reject</button><button class="btn cyan" data-act="approve" data-id="${q.id}">Approve &amp; add MCC</button></div>
+    </div>`).join('') +
+    done.map(q => `<div class="rq done"><div class="rqh"><span class="code" style="font-size:14px">MCC ${q.mcc}</span><span class="nm">${esc(q.mcc_label)}</span><span class="pill ${q.bucket}">${esc(q.bucket_label)}</span><span class="pill ${q.status}">${q.status}</span></div>${q.note ? `<div class="rqs">Note: ${esc(q.note)}</div>` : ''}</div>`).join('');
+  $('inbox').querySelectorAll('button[data-act]').forEach(b => b.onclick = () => {
+    const n = $('inbox').querySelector(`input.note[data-id="${b.dataset.id}"]`);
+    decideReq(b.dataset.id, b.dataset.act, n ? n.value : '');
+  });
+}
+function renderMyReqs() {
+  const all = (S.mcc_requests || []).slice(0, 4);
+  $('myReqs').innerHTML = all.length ? `<div class="h4" style="margin:14px 0 0"><span>My requests</span></div>` + all.map(q =>
+    `<div class="myreq"><span><b>MCC ${q.mcc}</b> \u00b7 ${esc(q.mcc_label)} \u2192 ${esc(q.bucket_label)}</span><span class="pill ${q.status}">${q.status}</span></div>`).join('') : '';
+}
+
+/* ---------- go-live tab ---------- */
+const GOLIVE = {
+  approvals: [
+    ['RBI e\u20b9 programme participation', 'Take part in RBI\'s e\u20b9 programme and get the programmable, purpose-bound token design reviewed by RBI.', 'RBI + sponsor bank', 'reg'],
+    ['Cross-border authorisation', 'Operate through an Authorised Dealer Category-I bank under FEMA, or hold RBI authorisation as a cross-border payment aggregator.', 'AD-I bank / RBI', 'reg'],
+    ['Payment system authorisation', 'Check whether the wallet and settlement layer needs authorisation under the Payment and Settlement Systems Act, 2007.', 'RBI', 'reg'],
+    ['Sandbox first', 'Start in the RBI regulatory sandbox or the IFSCA sandbox at GIFT City, with capped values and a single corridor.', 'RBI / IFSCA', 'reg'],
+    ['KYC, AML and sanctions', 'Customer due diligence at both ends, PMLA reporting to FIU-IND, and sanctions screening in every corridor.', 'Bank compliance', 'bank'],
+    ['Corridor-side licences', 'A licensed bank or money-transfer operator in each sending country (UAE, Singapore, Hong Kong, USA).', 'Corridor partners', 'bank'],
+    ['NPCI and acquirers', 'Carry the MCC in UPI / e\u20b9 QR flows and onboard acquirers whose merchant and terminal coding is reliable.', 'NPCI + acquirers', 'bank'],
+    ['Data protection', 'DPDP Act 2023, Indian payment-data storage rules, and consent for documents that hold personal or medical data.', 'CISO / DPO', 'int'],
+    ['Security assurance', 'Independent penetration tests, ISO 27001, HSM key ceremonies (FIPS 140-2 Level 3) and CERT-In incident reporting.', 'CISO', 'int']
+  ],
+  request: [
+    ['Regulator-owned MCC catalogue', 'Senders approve only from a regulator-approved list. The prohibited list always wins. The PoC already enforces this.'],
+    ['Verify documents at the source', 'Check registrations against official registries by API, not by file upload. The PoC only hashes the file name and size.'],
+    ['Strong sender authentication', 'Approvals need two-factor login and device binding, so a coerced or hijacked account cannot unlock categories.'],
+    ['Cooling-off, expiry and revocation', 'Delay sensitive categories (for example 24 hours), let approvals expire, and allow instant revocation.'],
+    ['Per-MCC limits', 'Cap the amount and period for each new category instead of opening the whole bucket.'],
+    ['Second approver', 'Guardian or joint approval for high values, minors or joint accounts.'],
+    ['Privacy by design', 'Documents stay encrypted and off-chain. Only digests go on the ledger. Define consent and retention rules.']
+  ],
+  challenges: [
+    ['Merchant mis-coding', 'Merchants use the wrong MCC, or one MCC covers mixed businesses (the cafeteria case).', 'Terminal-level classes, acquirer audits and a dispute route.'],
+    ['Fraud and fake documents', 'Forged certificates or colluding merchants.', 'Registry checks, risk scoring, velocity limits and a dispute window.'],
+    ['Programmability vs fungibility', 'Restricted tokens behave differently from cash-like e\u20b9.', 'Regulator-approved design, opt-in senders, and unspent funds unlocking to General after a set period.'],
+    ['Refunds and returns', 'A refund must go back into the same bucket.', 'Link each refund to the original end-to-end ID so the bucket is restored.'],
+    ['FX and liquidity', 'Corridor liquidity and rate risk between lock and settlement.', 'Oracle with a 30 s lock, bank liquidity lines and hedging by the partner bank.'],
+    ['Connectivity and ease of use', 'Senders and receivers with low connectivity.', 'Lightweight approval by app or secure link, and offline-capable wallets.'],
+    ['Interoperability', 'Each country has its own CBDC or fast-payment rail.', 'ISO 20022 gateway and corridor-by-corridor integration.'],
+    ['Scale', 'Throughput numbers are design targets, not measurements.', 'Load tests in the sandbox before any claim is made.']
+  ],
+  phases: [
+    ['Phase 1 \u00b7 Sandbox', 'About 3 to 6 months (assumed). One corridor, capped values, two banks, three buckets, manual document review.'],
+    ['Phase 2 \u00b7 Pilot', 'About 6 to 12 months (assumed). More corridors, live merchants, registry-verified documents, full approval controls.'],
+    ['Phase 3 \u00b7 Scale', 'Open to more banks and a wider MCC catalogue, with a regulator dashboard and real-time monitoring.']
+  ]
+};
+let goLiveDone = false;
+function renderGoLive() {
+  if (goLiveDone) return; goLiveDone = true;
+  const G = GOLIVE, own = {reg: 'Regulator', bank: 'Partner', int: 'Internal'};
+  $('p-gol').innerHTML = `
+    <div class="gl-note"><b>Indicative checklist for discussion.</b> Rules change and differ by corridor. Confirm each item with RBI, the sponsor bank and legal counsel before launch.</div>
+    <h4>Approvals and licences needed</h4>
+    ${G.approvals.map(a => `<div class="it"><div class="tt"><span>${esc(a[0])}</span><span class="own ${a[3]}">${own[a[3]]}</span></div><p>${esc(a[1])}</p><p style="color:var(--dim)">Owner: ${esc(a[2])}</p></div>`).join('')}
+    <h4>Extra controls for the "request a new MCC" flow</h4>
+    ${G.request.map(a => `<div class="it"><div class="tt"><span>${esc(a[0])}</span></div><p>${esc(a[1])}</p></div>`).join('')}
+    <h4>Key challenges and how we handle them</h4>
+    ${G.challenges.map(a => `<div class="it"><div class="tt"><span>${esc(a[0])}</span></div><p>${esc(a[1])}</p><p class="fx">\u2192 ${esc(a[2])}</p></div>`).join('')}
+    <h4>Suggested rollout</h4>
+    <div class="ph">${G.phases.map(a => `<div class="it"><div class="tt"><b class="pn2">${esc(a[0])}</b></div><p>${esc(a[1])}</p></div>`).join('')}</div>
+    <p class="note">The PoC simulates every item above. Nothing here is legal advice or a claim of regulatory approval.</p>`;
 }
 
 /* ---------- guided demo with voice ---------- */
@@ -793,41 +1051,61 @@ async function runDemo() {
   // 1 Sender + transfer
   if (!ok()) return;
   focusOn(cSender);
-  await talk('1 / 6 \u00b7 Send', 'Meet an expat in Dubai. He sends one thousand US dollars home, and splits it, forty percent for education, forty percent for healthcare, and twenty percent for general use. This split is set before the money is even minted.');
+  await talk('1 / 7 \u00b7 Send', 'Meet an expat in Dubai. He sends one thousand US dollars home, and splits it, forty percent for education, forty percent for healthcare, and twenty percent for general use. This split is set before the money is even minted.');
   if (!ok()) return;
   const tx = doTransfer();
   focusOn($('pipe'), 'start');
-  await talk('1 / 6 \u00b7 Settle', 'Now watch the lifecycle. The F X oracle locks the rate for thirty seconds. A zero knowledge proof confirms the annual cap, without revealing the sender\'s balance or history. Sanctions screening passes. The Reserve Bank issues the e-rupee, and the commercial bank distributes it into three purpose buckets. All of it settles in seconds.');
+  await talk('1 / 7 \u00b7 Settle', 'Now watch the lifecycle. The F X oracle locks the rate for thirty seconds. A zero knowledge proof confirms the annual cap, without revealing the sender\'s balance or history. Sanctions screening passes. The Reserve Bank issues the e-rupee, and the commercial bank distributes it into three purpose buckets. All of it settles in seconds.');
   await tx; if (!ok()) return;
   focusOn(cInsight);
-  await talk('1 / 6 \u00b7 Cost', 'The comparison panel shows the modelled cost and delay of the traditional SWIFT route against PurposePay. These numbers are simulated for the demo, but the gap is the point.');
+  await talk('1 / 7 \u00b7 Cost', 'The comparison panel shows the modelled cost and delay of the traditional SWIFT route against PurposePay. These numbers are simulated for the demo, but the gap is the point.');
 
   // 2 valid purchase
   if (!ok()) return;
   focusOn(cRecv);
-  await talk('2 / 6 \u00b7 Allowed', 'Now the receiver, back in India, holds three purpose-bound buckets. She scans the QR code at Apollo Hospital. The merchant category code, eighty sixty two, travels inside the QR, and the contract checks it against the healthcare bucket. It matches, so the payment is approved.');
+  await talk('2 / 7 \u00b7 Allowed', 'Now the receiver, back in India, holds three purpose-bound buckets. She scans the QR code at Apollo Hospital. The merchant category code, eighty sixty two, travels inside the QR, and the contract checks it against the healthcare bucket. It matches, so the payment is approved.');
   await pay('MERCHANT_APOLLO_HOSPITAL', 'HEALTHCARE', 5000); if (!ok()) return;
-  await talk('2 / 6 \u00b7 Allowed', 'Approved. The money reached a hospital, exactly as the sender intended.');
+  await talk('2 / 7 \u00b7 Allowed', 'Approved. The money reached a hospital, exactly as the sender intended.');
 
   // 3 wrong category
-  await talk('3 / 6 \u00b7 Blocked', 'Next, a liquor store. Its category code is fifty nine twenty one. She tries to pay with healthcare tokens.');
+  await talk('3 / 7 \u00b7 Blocked', 'Next, a liquor store. Its category code is fifty nine twenty one. She tries to pay with healthcare tokens.');
   await pay('MERCHANT_LIQUOR_STORE', 'HEALTHCARE', 1000); if (!ok()) return;
-  await talk('3 / 6 \u00b7 Blocked', 'Blocked. Healthcare tokens simply cannot be spent outside healthcare merchants. No manual check was needed.');
+  await talk('3 / 7 \u00b7 Blocked', 'Blocked. Healthcare tokens simply cannot be spent outside healthcare merchants. No manual check was needed.');
 
   // 4 terminal class
-  await talk('4 / 6 \u00b7 Blocked', 'A subtler case. The hospital cafeteria shares the hospital\'s parent category, eighty sixty two. But its terminal is not a designated billing terminal.');
+  await talk('4 / 7 \u00b7 Blocked', 'A subtler case. The hospital cafeteria shares the hospital\'s parent category, eighty sixty two. But its terminal is not a designated billing terminal.');
   await pay('MERCHANT_HOSPITAL_CAFETERIA', 'HEALTHCARE'); if (!ok()) return;
-  await talk('4 / 6 \u00b7 Blocked', 'Blocked again. That is why we enforce the terminal class as well as the category code. A sandwich is not a medical bill.');
+  await talk('4 / 7 \u00b7 Blocked', 'Blocked again. That is why we enforce the terminal class as well as the category code. A sandwich is not a medical bill.');
 
   // 5 general bucket prohibited
-  await talk('5 / 6 \u00b7 Policy', 'Even the general bucket has limits. Prohibited categories, such as liquor stores, are refused by policy, so the flexible money is still safe.');
+  await talk('5 / 7 \u00b7 Policy', 'Even the general bucket has limits. Prohibited categories, such as liquor stores, are refused by policy, so the flexible money is still safe.');
   await pay('MERCHANT_LIQUOR_STORE', 'GENERAL'); if (!ok()) return;
-  await talk('5 / 6 \u00b7 Policy', 'Refused, even from the general bucket.');
+  await talk('5 / 7 \u00b7 Policy', 'Refused, even from the general bucket.');
 
   // 6 education
-  await talk('6 / 6 \u00b7 Allowed', 'Finally, education. D P S School, category eighty two eleven, accepts education tokens.');
+  await talk('6 / 7 \u00b7 Allowed', 'Finally, education. D P S School, category eighty two eleven, accepts education tokens.');
   await pay('MERCHANT_DPS_SCHOOL', 'EDUCATION', 8000); if (!ok()) return;
-  await talk('6 / 6 \u00b7 Allowed', 'Approved. School fees paid straight from the education bucket.');
+  await talk('6 / 7 \u00b7 Allowed', 'Approved. School fees paid straight from the education bucket.');
+
+  // 7 new category request
+  if (!ok()) return;
+  focusOn(cRecv);
+  await talk('7 / 7 \u00b7 New category', 'Real life changes. The receiver now needs a diagnostics lab, category code eighty seventy one. Healthcare tokens do not allow it yet.');
+  await pay('MERCHANT_DIAGNOSTICS_LAB', 'HEALTHCARE', 1500); if (!ok()) return;
+  await talk('7 / 7 \u00b7 Request', 'Blocked, as expected. So instead of calling anyone, she raises a request inside the app, with the new code, the reason, and the required documents. Each document is hashed onto the ledger, and the request goes straight to the sender.');
+  if (!ok()) return;
+  prefillReq('HEALTHCARE', 8071, 'Medical laboratories', 'Treatment needs regular blood tests at an accredited lab.'); sampleDocs();
+  await waitAlive(1500, id); if (!ok()) return;
+  await submitReq(); if (!ok()) return;
+  focusOn($('inboxWrap'));
+  await talk('7 / 7 \u00b7 Approval', 'In Dubai, the sender sees the request with its documents and the automatic policy checks. The code is not prohibited and the documents are complete. He approves, and the change is written to the ledger.');
+  const pend = (S.mcc_requests || []).find(q => q.status === 'PENDING');
+  if (pend) await decideReq(pend.id, 'approve', 'Approved. Please keep the receipts.');
+  if (!ok()) return;
+  focusOn(cRecv);
+  await talk('7 / 7 \u00b7 Unlocked', 'Now the receiver tries the lab again.');
+  await pay('MERCHANT_DIAGNOSTICS_LAB', 'HEALTHCARE', 1500); if (!ok()) return;
+  await talk('7 / 7 \u00b7 Unlocked', 'Approved. The new code was added to the healthcare bucket only. Education tokens still cannot be spent at the lab, and prohibited categories can never be unlocked by anyone.');
 
   // Audit trail
   if (!ok()) return;
@@ -835,10 +1113,14 @@ async function runDemo() {
   await talk('Audit trail', 'Every decision produces an I S O two zero zero two two standard message, a payment instruction and a status report, carrying the purpose allocation. Approved payments return accepted. Blocked ones return rejected, with a reason code.');
   if (!ok()) return;
   showTab('led');
-  await talk('Audit trail', 'And every step is recorded on the two-tier ledger, so regulators and banks see the same truth.');
+  await talk('Audit trail', 'And every step is recorded on the two-tier ledger, so regulators and banks see the same truth. That includes the request and the approval you just saw.');
   if (!ok()) return;
   showTab('rul');
   await talk('Rules', 'The rules tab shows the policy behind each decision. The regulator can change a rule without touching the sender or the merchant.');
+
+  if (!ok()) return;
+  showTab('gol'); focusOn(cInsight);
+  await talk('Go-live', 'Finally, the go-live tab lists what we would need before launching this for real. The regulatory approvals, the partner licences, the extra controls for category requests, and the main risks, each with how we would handle it.');
 
   if (!ok()) return;
   focusOn(document.querySelector('header.top'), 'start');
@@ -862,6 +1144,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   $('btnPay').onclick = doPay;
   $('btnReset').onclick = () => doReset();
   $('btnDemo').onclick = runDemo;
+  $('btnReq').onclick = submitReq; $('btnSample').onclick = sampleDocs; $('reqMcc').oninput = onMccInput;
   $('btnVoice').onclick = () => {
     voiceOn = !voiceOn; $('btnVoice').textContent = voiceOn ? '\ud83d\udd0a Voice on' : '\ud83d\udd07 Voice off';
     if (!voiceOn && canSpeak) speechSynthesis.cancel();
