@@ -446,7 +446,7 @@ footer{margin-top:22px;text-align:center;font-size:12.5px;color:var(--dim)}
   <div id="log"><div><span class="tm">--:--:--</span>Initializing multi-currency CBDC state engine&#8230;</div></div>
 </section>
 
-<footer>Simulation: in-memory ledger, simulated HSM and ZKP, static FX rates. Production design: permissioned DLT, FIPS 140-2 L3 HSMs, live FX oracles, on-chain ZKP verification.</footer>
+<footer>Simulation: in-memory ledger, simulated HSM and ZKP, live mid-market FX rates (static fallback). Production design: permissioned DLT, FIPS 140-2 L3 HSMs, Bloomberg or Refinitiv FX oracles, on-chain ZKP verification.</footer>
 </div>
 
 <script>
@@ -543,7 +543,7 @@ function renderSender() {
   $('segCur').querySelectorAll('button').forEach(b => b.onclick = () => { cur = b.dataset.c; renderSender(); scheduleCompare(); });
 
   const info = rates[cur];
-  $('oracleLbl').textContent = `Oracle \u00b7 ${cur}/INR`;
+  const fm = S.fx_meta || {}; $('oracleLbl').textContent = `Oracle \u00b7 ${cur}/INR \u00b7 ` + (fm.source === 'live' ? 'LIVE' : 'STATIC'); $('oracleLbl').title = fm.source === 'live' ? `Live mid-market rate from ${fm.provider}${fm.as_of ? ', updated ' + fm.as_of : ''}. Refreshed every ${Math.round((fm.refresh_seconds || 600) / 60)} min.` : 'Static demo rates. The live feed was unavailable.';
   $('oracleVal').textContent = `1 ${cur} = \u20b9${info.rate.toFixed(2)}`;
   $('balVal').textContent = `${(S.sender_balances[cur] || 0).toLocaleString('en-US', {minimumFractionDigits: 2})} ${cur}`;
   $('nodeVal').textContent = `Node: ${info.bank}`;
