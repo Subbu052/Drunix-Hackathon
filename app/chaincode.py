@@ -13,6 +13,7 @@ All figures are illustrative. Nothing here is measured production performance.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import math
@@ -104,6 +105,44 @@ MERCHANTS: Dict[str, Dict[str, Any]] = {
     },
 }
 
+# Merchant registry additions used by the "request a new MCC" workflow demo.
+MERCHANTS["MERCHANT_DIAGNOSTICS_LAB"] = {
+    "name": "City Diagnostics Lab", "mcc": 8071, "terminal": "BILLING",
+    "mcc_label": "Medical laboratories", "icon": "\U0001f9ea",
+}
+MERCHANTS["MERCHANT_CAMPUS_BOOKS"] = {
+    "name": "Campus Book Store", "mcc": 5942, "terminal": "BILLING",
+    "mcc_label": "Book stores", "icon": "\U0001f4da",
+}
+
+# Regulator-style catalogue of MCCs a receiver may ask to add (illustrative subset).
+MCC_CATALOG: Dict[int, Dict[str, str]] = {
+    8071: {"label": "Medical laboratories", "bucket": "HEALTHCARE"},
+    8042: {"label": "Optometrists & ophthalmologists", "bucket": "HEALTHCARE"},
+    8043: {"label": "Opticians & eyeglasses", "bucket": "HEALTHCARE"},
+    8049: {"label": "Podiatrists & chiropractors", "bucket": "HEALTHCARE"},
+    8050: {"label": "Nursing & personal care", "bucket": "HEALTHCARE"},
+    5047: {"label": "Medical & dental equipment", "bucket": "HEALTHCARE"},
+    5942: {"label": "Book stores", "bucket": "EDUCATION"},
+    5943: {"label": "Stationery & office supplies", "bucket": "EDUCATION"},
+    8241: {"label": "Correspondence schools", "bucket": "EDUCATION"},
+    8244: {"label": "Business & secretarial schools", "bucket": "EDUCATION"},
+    8249: {"label": "Vocational & trade schools", "bucket": "EDUCATION"},
+    8351: {"label": "Child care services", "bucket": "EDUCATION"},
+}
+
+# Documents a receiver must attach, by bucket (verified against registries in production).
+REQUIRED_DOCS: Dict[str, List[Dict[str, str]]] = {
+    "HEALTHCARE": [
+        {"type": "REGISTRATION", "label": "Provider registration certificate"},
+        {"type": "ESTIMATE", "label": "Treatment estimate or prescription"},
+    ],
+    "EDUCATION": [
+        {"type": "RECOGNITION", "label": "Institution recognition certificate"},
+        {"type": "FEE_INVOICE", "label": "Fee structure or invoice"},
+    ],
+}
+
 BUCKET_KEYS = ("education", "healthcare", "general")
 
 
@@ -128,6 +167,12 @@ class CBDCSmartContract:
         self.sender_balances: Dict[str, float] = dict(INITIAL_BALANCES)
         self.receiver_wallet: Dict[str, float] = {"education": 0.0, "healthcare": 0.0, "general": 0.0, "total": 0.0}
         self.merchants: Dict[str, Dict[str, Any]] = {k: dict(v) for k, v in MERCHANTS.items()}
+        # Rules are per instance: approved MCC requests change them, reset() restores the defaults.
+        self.rules: Dict[str, Dict[str, Any]] = copy.deepcopy(BUCKET_RULES)
+        for _r in self.rules.values():
+            _r["added"] = set()
+        self.mcc_requests: List[Dict[str, Any]] = []
+        self._req_seq: int = 0
         self.cap_usd: float = ANNUAL_CAP_USD
         self.used_usd: float = 0.0
         self.ledger: List[Dict[str, Any]] = []
@@ -141,10 +186,10 @@ class CBDCSmartContract:
 
     def rules_public(self) -> Dict[str, Any]:
         out: Dict[str, Any] = {}
-        for key, rule in BUCKET_RULES.items():
+        for key, rule in self.rules.items():
             out[key] = {
                 "label": rule["label"],
-                "mccs": [{"mcc": m, "name": n} for m, n in (rule["mccs"] or {}).items()],
+                "mccs": [{"mcc": m, "name": n, "added": m in rule["added"]} for m, n in (rule["mccs"] or {}).items()],
                 "any_mcc": rule["mccs"] is None,
                 "terminals": rule["terminals"] or [],
                 "prohibited": [{"mcc": m, "name": n} for m, n in rule["prohibited"].items()],
@@ -178,6 +223,9 @@ class CBDCSmartContract:
             "payments": self.payments[-8:][::-1],
             "last_transfer": self.last_transfer,
             "fx_lock_seconds": FX_LOCK_SECONDS,
+            "mcc_requests": self.mcc_requests[::-1][:12],
+            "required_docs": REQUIRED_DOCS,
+            "mcc_catalog": [dict(mcc=m, **v) for m, v in MCC_CATALOG.items()],
         }
 
     # ------------------------------------------------------------------ #
@@ -520,7 +568,7 @@ class CBDCSmartContract:
         merchant = self.merchants.get(merchant_id)
         if merchant is None:
             return False, f"Unknown merchant '{merchant_id}'.", {"reason": "UNKNOWN_MERCHANT", "decision": "BLOCKED"}
-        rule = BUCKET_RULES.get(bucket)
+        rule = self.rules.get(bucket)
         if rule is None:
             return False, f"Unknown e\u20b9 bucket '{category}'.", {"reason": "UNKNOWN_BUCKET", "decision": "BLOCKED"}
 
@@ -586,6 +634,130 @@ class CBDCSmartContract:
         details.update({"decision": "APPROVED", "reason": "OK", "block_height": block_rec["height"]})
         self._record_payment(details, text)
         return True, text, details
+
+    # ------------------------------------------------------------------ #
+    # Receiver asks the sender to add a new MCC to a purpose bucket
+    # ------------------------------------------------------------------ #
+    def submit_mcc_request(self, bucket: str, mcc: Any, mcc_label: str = "", reason: str = "",
+                           documents: Optional[List[Dict[str, Any]]] = None
+                           ) -> Tuple[bool, str, Dict[str, Any]]:
+        bucket = str(bucket).strip().upper()
+        rule = self.rules.get(bucket)
+
+        def fail(code: str, text: str, **extra: Any) -> Tuple[bool, str, Dict[str, Any]]:
+            return False, text, dict({"reason": code, "decision": "REJECTED"}, **extra)
+
+        if rule is None:
+            return fail("UNKNOWN_BUCKET", f"Unknown e\u20b9 bucket '{bucket}'.")
+        if rule["mccs"] is None:
+            return fail("BUCKET_ALLOWS_ALL",
+                        "The General bucket already accepts every category except regulator-prohibited codes.")
+        try:
+            mcc_i = int(str(mcc).strip())
+        except (TypeError, ValueError):
+            return fail("INVALID_MCC", "MCC must be a 4-digit number.")
+        if not 1000 <= mcc_i <= 9999:
+            return fail("INVALID_MCC", "MCC must be a 4-digit number (1000-9999).")
+
+        for r in self.rules.values():
+            if mcc_i in r["prohibited"]:
+                return fail("PROHIBITED_MCC",
+                            f"MCC {mcc_i} ({r['prohibited'][mcc_i]}) is on the regulator's prohibited list. "
+                            "It can never be added to any bucket, whoever approves.")
+        if mcc_i in rule["mccs"]:
+            return fail("ALREADY_ALLOWED", f"MCC {mcc_i} is already allowed in the {rule['label']} bucket.")
+        for q in self.mcc_requests:
+            if q["status"] == "PENDING" and q["mcc"] == mcc_i and q["bucket"] == bucket:
+                return fail("DUPLICATE_PENDING", f"A request for MCC {mcc_i} is already awaiting the sender.")
+
+        label = str(mcc_label or "").strip() or MCC_CATALOG.get(mcc_i, {}).get("label", "")
+        if len(label) < 3:
+            return fail("LABEL_REQUIRED", "Describe the merchant category (for example 'Medical laboratories').")
+        label = label[:60]
+        reason = str(reason or "").strip()
+        if len(reason) < 10:
+            return fail("REASON_REQUIRED", "Explain why the sender should approve this (at least 10 characters).")
+        reason = reason[:280]
+
+        docs_in = documents or []
+        got = {str(d.get("type", "")).upper(): d for d in docs_in if str(d.get("name", "")).strip()}
+        required = REQUIRED_DOCS[bucket]
+        missing = [d["label"] for d in required if d["type"] not in got]
+        if missing:
+            return fail("DOCUMENTS_INCOMPLETE", "Missing required documents: " + ", ".join(missing) + ".",
+                        missing=missing)
+        docs = []
+        for d in required:
+            g = got[d["type"]]
+            name = str(g.get("name", "")).strip()[:80]
+            try:
+                size = int(g.get("size") or 0)
+            except (TypeError, ValueError):
+                size = 0
+            docs.append({
+                "type": d["type"], "label": d["label"], "name": name, "size": size,
+                # Only the digest goes on the ledger; the file itself stays off-chain.
+                "digest": _sha(f"{d['type']}|{name}|{size}|{mcc_i}")[:16],
+            })
+
+        self._req_seq += 1
+        rec: Dict[str, Any] = {
+            "id": f"MCC-REQ-{self._req_seq:03d}",
+            "bucket": bucket, "bucket_label": rule["label"],
+            "mcc": mcc_i, "mcc_label": label, "reason": reason, "documents": docs,
+            "status": "PENDING",
+            "requested_by": "Receiver \u00b7 India wallet", "approver": "Sender \u00b7 abroad",
+            "created": datetime.now(timezone.utc).strftime("%H:%M:%S"),
+            "decided": None, "note": "",
+            "checks": [
+                {"name": "MCC format (4 digits)", "ok": True, "detail": str(mcc_i)},
+                {"name": "Not on regulator prohibited list", "ok": True, "detail": "policy engine"},
+                {"name": "Not already allowed in bucket", "ok": True, "detail": rule["label"]},
+                {"name": "Required documents attached", "ok": True, "detail": f"{len(docs)}/{len(required)}"},
+                {"name": "Document authenticity", "ok": None, "detail": "registry check (production)"},
+            ],
+        }
+        blk = self._append_block(
+            "REQUEST", "Tier 2",
+            f"Receiver requested MCC {mcc_i} ({label}) for {rule['label']} bucket \u00b7 "
+            f"{len(docs)} document hashes \u00b7 {rec['id']} awaiting sender",
+        )
+        rec["request_block"] = blk["height"]
+        self.mcc_requests.append(rec)
+        return True, f"Request {rec['id']} sent to the sender for approval.", rec
+
+    def decide_mcc_request(self, req_id: str, action: str, note: str = "") -> Tuple[bool, str, Dict[str, Any]]:
+        action = str(action).strip().lower()
+        if action not in ("approve", "reject"):
+            return False, "Action must be 'approve' or 'reject'.", {"reason": "INVALID_ACTION"}
+        rec = next((q for q in self.mcc_requests if q["id"] == req_id), None)
+        if rec is None:
+            return False, f"Request '{req_id}' not found.", {"reason": "NOT_FOUND"}
+        if rec["status"] != "PENDING":
+            return False, f"{req_id} was already {rec['status'].lower()}.", {"reason": "ALREADY_DECIDED"}
+
+        rule = self.rules[rec["bucket"]]
+        rec["decided"] = datetime.now(timezone.utc).strftime("%H:%M:%S")
+        rec["note"] = str(note or "").strip()[:140]
+        if action == "approve":
+            rule["mccs"][rec["mcc"]] = rec["mcc_label"]
+            rule["added"].add(rec["mcc"])
+            rec["status"] = "APPROVED"
+            blk = self._append_block(
+                "POLICY", "Tier 2",
+                f"Sender approved MCC {rec['mcc']} ({rec['mcc_label']}) for {rule['label']} bucket \u00b7 "
+                f"{rec['id']} \u00b7 e\u20b9 in that bucket can now be spent there",
+            )
+            text = f"Approved. MCC {rec['mcc']} is now allowed in the {rule['label']} bucket."
+        else:
+            rec["status"] = "REJECTED"
+            blk = self._append_block(
+                "POLICY", "Tier 2",
+                f"Sender rejected MCC {rec['mcc']} ({rec['mcc_label']}) for {rule['label']} bucket \u00b7 {rec['id']}",
+            )
+            text = f"Rejected. MCC {rec['mcc']} stays blocked for the {rule['label']} bucket."
+        rec["decision_block"] = blk["height"]
+        return True, text, rec
 
     def pay(self, merchant_id: str, category: str, amount_inr: float) -> Tuple[bool, str, Dict[str, Any]]:
         """Alias kept for main.py compatibility."""
