@@ -17,7 +17,9 @@ import copy
 import hashlib
 import json
 import math
+import os
 import time
+import urllib.request
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -30,6 +32,40 @@ from typing import Any, Dict, List, Optional, Tuple
 # whatever corridor / AML cap the regulator sets, so the cap is a policy value.
 ANNUAL_CAP_USD = 250_000.0
 FX_LOCK_SECONDS = 30
+
+# Live mid-market rates (free, no API key). Falls back to the static table below if the
+# call fails or PURPOSEPAY_LIVE_FX=0. Production uses Bloomberg / Refinitiv oracle feeds.
+FX_LIVE_URL = "https://open.er-api.com/v6/latest/USD"
+FX_REFRESH_SECONDS = 600     # cache a good fetch for 10 minutes
+FX_RETRY_SECONDS = 60        # after a failure, wait a minute before trying again
+_FX_CACHE: Dict[str, Any] = {"rates": {}, "fetched": 0.0, "attempt": 0.0, "as_of": None}
+
+
+def _fetch_live_fx() -> Optional[Dict[str, float]]:
+    """Return {currency: INR per 1 unit} from the live source, or None on any failure."""
+    try:
+        req = urllib.request.Request(FX_LIVE_URL, headers={"User-Agent": "PurposePay-PoC"})
+        with urllib.request.urlopen(req, timeout=4) as resp:  # nosec - fixed https URL
+            data = json.loads(resp.read().decode("utf-8"))
+        return _parse_live_fx(data)
+    except Exception:
+        return None
+
+
+def _parse_live_fx(data: Dict[str, Any]) -> Optional[Dict[str, float]]:
+    rates = data.get("rates") or {}
+    inr = float(rates["INR"])
+    out: Dict[str, float] = {}
+    for cur in ("USD", "AED", "HKD", "SGD"):
+        per_usd = float(rates[cur])
+        if per_usd <= 0 or inr <= 0:
+            return None
+        out[cur] = round(inr / per_usd, 4)
+    # sanity band so a bad payload can never poison the demo
+    if not 20 < out["USD"] < 400:
+        return None
+    _FX_CACHE["as_of"] = str(data.get("time_last_update_utc") or "")[:25]
+    return out
 
 FX_RATES: Dict[str, Dict[str, Any]] = {
     "USD": {"rate": 83.50, "bank": "Citi New York node", "country": "USA"},
@@ -164,6 +200,8 @@ class CBDCSmartContract:
     def reset(self) -> Dict[str, Any]:
         """Return the simulation to a clean state (handy between demo runs)."""
         self.fx_rates: Dict[str, Dict[str, Any]] = {k: dict(v) for k, v in FX_RATES.items()}
+        for _c, _rate in _FX_CACHE["rates"].items():
+            self.fx_rates[_c]["rate"] = _rate
         self.sender_balances: Dict[str, float] = dict(INITIAL_BALANCES)
         self.receiver_wallet: Dict[str, float] = {"education": 0.0, "healthcare": 0.0, "general": 0.0, "total": 0.0}
         self.merchants: Dict[str, Dict[str, Any]] = {k: dict(v) for k, v in MERCHANTS.items()}
@@ -184,6 +222,32 @@ class CBDCSmartContract:
         self._append_block("GENESIS", "Tier 1", "RBI issuer node online. Purpose-bound policy loaded.")
         return self.get_state()
 
+    def refresh_fx(self, force: bool = False) -> str:
+        """Update oracle rates from the live source (cached). Returns 'live' or 'static'."""
+        if os.environ.get("PURPOSEPAY_LIVE_FX", "1") == "0":
+            return "static"
+        now = time.time()
+        fresh = _FX_CACHE["rates"] and now - _FX_CACHE["fetched"] < FX_REFRESH_SECONDS
+        if not force and (fresh or now - _FX_CACHE["attempt"] < FX_RETRY_SECONDS):
+            return "live" if _FX_CACHE["rates"] else "static"
+        _FX_CACHE["attempt"] = now
+        got = _fetch_live_fx()
+        if got:
+            _FX_CACHE["rates"] = got
+            _FX_CACHE["fetched"] = now
+            for cur, rate in got.items():
+                self.fx_rates[cur]["rate"] = rate
+        return "live" if _FX_CACHE["rates"] else "static"
+
+    def fx_meta(self) -> Dict[str, Any]:
+        live = bool(_FX_CACHE["rates"]) and os.environ.get("PURPOSEPAY_LIVE_FX", "1") != "0"
+        return {
+            "source": "live" if live else "static",
+            "provider": "open.er-api.com (mid-market)" if live else "static demo table",
+            "as_of": _FX_CACHE["as_of"] if live else None,
+            "refresh_seconds": FX_REFRESH_SECONDS,
+        }
+
     def rules_public(self) -> Dict[str, Any]:
         out: Dict[str, Any] = {}
         for key, rule in self.rules.items():
@@ -198,9 +262,11 @@ class CBDCSmartContract:
 
     def get_state(self) -> Dict[str, Any]:
         """Current ledger, oracle rates, wallet balances and policy parameters."""
+        self.refresh_fx()
         usd_rate = self.fx_rates["USD"]["rate"]
         return {
             "fx_rates": self.fx_rates,
+            "fx_meta": self.fx_meta(),
             "sender_balances": self.sender_balances,
             "receiver_inr": self.receiver_wallet,
             "merchants": [dict(v, id=k) for k, v in self.merchants.items()],
@@ -335,6 +401,7 @@ class CBDCSmartContract:
         amount = float(amount)
         edu_pct, health_pct, gen_pct = float(edu_pct), float(health_pct), float(gen_pct)
 
+        self.refresh_fx()
         if currency not in self.fx_rates:
             raise ValueError(f"Unsupported currency: {currency}")
 
@@ -423,6 +490,7 @@ class CBDCSmartContract:
 
         if not all(math.isfinite(v) for v in (amount, edu_pct, health_pct, gen_pct)):
             return False, "Invalid numeric input.", {"failed_step": "initiate"}
+        self.refresh_fx()
         if currency not in self.fx_rates:
             return False, f"Unsupported currency code: {currency}", {"failed_step": "initiate"}
         if amount <= 0:
