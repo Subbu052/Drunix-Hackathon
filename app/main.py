@@ -11,7 +11,7 @@ try:  # run as a package: uvicorn app.main:app
 except ImportError:  # run as a script from inside app/
     from chaincode import drunix_chain
 
-BUILD = "2026-10-12-mcc-requests"
+BUILD = "2026-10-12-live-fx"
 
 app = FastAPI(title="PurposePay - Programmable Cross-Border CBDC Remittance")
 
